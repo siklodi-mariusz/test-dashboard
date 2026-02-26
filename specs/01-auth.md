@@ -2,7 +2,7 @@
 
 ## Tech Stack
 
-- **Framework**: Rails 8.2
+- **Framework**: Rails 8.1
 - **Frontend**: Hotwire (Turbo for navigation and form submissions, Stimulus where needed)
 - **Styling**: Tailwind CSS v4 (see `specs/ui.md`)
 - **Database**: SQLite

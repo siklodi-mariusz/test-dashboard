@@ -1,0 +1,11 @@
+confirmed_user:
+  name: "Jane Doe"
+  email: "jane@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  confirmed_at: <%= Time.current %>
+
+unconfirmed_user:
+  name: "John Smith"
+  email: "john@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  confirmed_at: null
