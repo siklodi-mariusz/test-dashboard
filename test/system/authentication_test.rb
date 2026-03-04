@@ -51,19 +51,18 @@ class AuthenticationTest < ApplicationSystemTestCase
   end
 
   test "password reset flow" do
-    create_confirmed_user(name: "Bob Reset", email: "bob-reset@example.com")
-    ActionMailer::Base.deliveries.clear
+    user = users(:confirmed_user)
 
     visit new_user_session_path
     click_on "Forgot your password?"
 
-    fill_in "Email", with: "bob-reset@example.com"
+    fill_in "Email", with: user.email
     click_on "Send me reset password instructions"
 
     # Extract reset link from email
     assert_text "You will receive an email"
     reset_email = ActionMailer::Base.deliveries.last
-    assert reset_email.present?, "Reset email should be sent (total deliveries: #{ActionMailer::Base.deliveries.count}, object_id: #{ActionMailer::Base.deliveries.object_id})"
+    assert reset_email.present?, "Reset email should be sent"
     reset_url = extract_url_from_email(reset_email, "reset_password_token")
     visit reset_url
 
@@ -72,36 +71,36 @@ class AuthenticationTest < ApplicationSystemTestCase
     click_on "Change my password"
 
     # Assert signed in and on dashboard
-    assert_text "Welcome, Bob Reset!"
+    assert_text "Welcome, #{user.name}!"
   end
 
   test "remember me keeps user authenticated" do
-    create_confirmed_user(name: "Carol Remember", email: "carol-remember@example.com")
+    user = users(:confirmed_user)
 
     visit new_user_session_path
-    fill_in "Email", with: "carol-remember@example.com"
+    fill_in "Email", with: user.email
     fill_in "Password", with: "password123"
     check "Remember me"
     click_on "Sign in"
 
-    assert_text "Welcome, Carol Remember!"
+    assert_text "Welcome, #{user.name}!"
 
     # Simulate session expiry by clearing the session cookie but keeping remember_me
     expire_session_cookie
 
     visit dashboard_path
-    assert_text "Welcome, Carol Remember!"
+    assert_text "Welcome, #{user.name}!"
   end
 
   test "account deletion" do
-    create_confirmed_user(name: "Dave Delete", email: "dave-delete@example.com")
+    user = users(:confirmed_user)
 
     # Sign in
     visit new_user_session_path
-    fill_in "Email", with: "dave-delete@example.com"
+    fill_in "Email", with: user.email
     fill_in "Password", with: "password123"
     click_on "Sign in"
-    assert_text "Welcome, Dave Delete!"
+    assert_text "Welcome, #{user.name}!"
 
     # Visit edit page and delete account
     visit edit_user_registration_path
@@ -114,37 +113,27 @@ class AuthenticationTest < ApplicationSystemTestCase
 
     # Try to sign in with deleted credentials
     visit new_user_session_path
-    fill_in "Email", with: "dave-delete@example.com"
+    fill_in "Email", with: user.email
     fill_in "Password", with: "password123"
     click_on "Sign in"
     assert_text "Invalid email or password"
   end
 
   test "authenticated root redirects to dashboard" do
-    create_confirmed_user(name: "Eve Root", email: "eve-root@example.com")
+    user = users(:confirmed_user)
 
     visit new_user_session_path
-    fill_in "Email", with: "eve-root@example.com"
+    fill_in "Email", with: user.email
     fill_in "Password", with: "password123"
     click_on "Sign in"
 
-    assert_text "Welcome, Eve Root!"
+    assert_text "Welcome, #{user.name}!"
 
     visit root_path
-    assert_text "Welcome, Eve Root!"
+    assert_text "Welcome, #{user.name}!"
   end
 
   private
-
-  def create_confirmed_user(name: "Test User", email: "test@example.com")
-    User.create!(
-      name: name,
-      email: email,
-      password: "password123",
-      password_confirmation: "password123",
-      confirmed_at: Time.current
-    )
-  end
 
   def extract_url_from_email(email, token_param)
     body = email.body.to_s

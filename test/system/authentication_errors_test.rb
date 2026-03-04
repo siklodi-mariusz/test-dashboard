@@ -2,15 +2,10 @@ require "application_system_test_case"
 
 class AuthenticationErrorsTest < ApplicationSystemTestCase
   test "sign-in with unconfirmed account" do
-    User.create!(
-      name: "Unconfirmed User",
-      email: "unconfirmed-sys@example.com",
-      password: "password123",
-      password_confirmation: "password123"
-    )
+    user = users(:unconfirmed_user)
 
     visit new_user_session_path
-    fill_in "Email", with: "unconfirmed-sys@example.com"
+    fill_in "Email", with: user.email
     fill_in "Password", with: "password123"
     click_on "Sign in"
 
@@ -39,16 +34,10 @@ class AuthenticationErrorsTest < ApplicationSystemTestCase
   end
 
   test "sign-in with wrong credentials" do
-    User.create!(
-      name: "Wrong Creds User",
-      email: "wrongcreds@example.com",
-      password: "password123",
-      password_confirmation: "password123",
-      confirmed_at: Time.current
-    )
+    user = users(:confirmed_user)
 
     visit new_user_session_path
-    fill_in "Email", with: "wrongcreds@example.com"
+    fill_in "Email", with: user.email
     fill_in "Password", with: "wrongpassword"
     click_on "Sign in"
 
