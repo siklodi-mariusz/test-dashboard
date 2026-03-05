@@ -1,6 +1,8 @@
 require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
+  include ActionCable::TestHelper
+
   # Name validations
 
   test "valid user passes validation" do
@@ -76,5 +78,88 @@ class UserTest < ActiveSupport::TestCase
     user = User.new(name: "Test", email: "test@example.com", password: "")
     assert_not user.valid?
     assert_includes user.errors[:password], "can't be blank"
+  end
+
+  # Role enum
+
+  test "user? returns true for user role" do
+    user = users(:confirmed_user)
+    assert user.user?
+    assert_not user.admin?
+  end
+
+  test "admin? returns true for admin role" do
+    admin = users(:admin_user)
+    assert admin.admin?
+    assert_not admin.user?
+  end
+
+  test "default role is user" do
+    user = User.new(name: "Test", email: "default@example.com", password: "password123")
+    assert_equal "user", user.role
+    assert user.user?
+  end
+
+  # Admin broadcast on create
+
+  test "broadcasts to admin_notifications exactly twice on create" do
+    assert_broadcasts("admin_notifications", 2) do
+      User.create!(name: "Broadcast Test", email: "broadcast@example.com", password: "password123")
+    end
+  end
+
+  test "broadcast appends toast with user name and email" do
+    assert_broadcasts("admin_notifications", 2) do
+      User.create!(name: "Toast User", email: "toast@example.com", password: "password123")
+    end
+
+    messages = broadcasts("admin_notifications").map { |m| ActiveSupport::JSON.decode(m) }
+    toast = messages.find { |m| m.include?("admin_toast_container") }
+    assert toast, "Expected a broadcast targeting admin_toast_container"
+    assert_includes toast, "Toast User"
+    assert_includes toast, "toast@example.com"
+    assert_includes toast, 'action="append"'
+  end
+
+  test "broadcast prepends table row with user details" do
+    assert_broadcasts("admin_notifications", 2) do
+      User.create!(name: "Row User", email: "row@example.com", password: "password123")
+    end
+
+    messages = broadcasts("admin_notifications").map { |m| ActiveSupport::JSON.decode(m) }
+    row = messages.find { |m| m.include?("admin_users_table_body") }
+    assert row, "Expected a broadcast targeting admin_users_table_body"
+    assert_includes row, "Row User"
+    assert_includes row, "row@example.com"
+    assert_includes row, 'action="prepend"'
+  end
+
+  test "creating multiple users sends exactly 2 broadcasts each" do
+    assert_broadcasts("admin_notifications", 4) do
+      User.create!(name: "First", email: "first@example.com", password: "password123")
+      User.create!(name: "Second", email: "second@example.com", password: "password123")
+    end
+  end
+
+  # Last admin protection
+
+  test "last admin cannot be demoted to user" do
+    admin = users(:admin_user)
+    assert_equal 1, User.where(role: :admin).count, "Precondition: only one admin exists"
+
+    admin.role = :user
+    assert_not admin.valid?
+    assert_includes admin.errors[:role], "cannot be changed. At least one admin must exist."
+  end
+
+  test "admin can be demoted when another admin exists" do
+    admin = users(:admin_user)
+    other_user = users(:confirmed_user)
+    other_user.update_columns(role: 1)
+
+    assert_operator User.where(role: :admin).count, :>=, 2, "Precondition: at least two admins exist"
+
+    admin.role = :user
+    assert admin.valid?, "Admin should be demotable when another admin exists"
   end
 end

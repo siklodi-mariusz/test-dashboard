@@ -5,6 +5,7 @@ class AuthenticationErrorsTest < ApplicationSystemTestCase
     user = users(:unconfirmed_user)
 
     visit new_user_session_path
+    assert_text "Sign in to your account"
     fill_in "Email", with: user.email
     fill_in "Password", with: "password123"
     click_on "Sign in"
@@ -37,6 +38,7 @@ class AuthenticationErrorsTest < ApplicationSystemTestCase
     user = users(:confirmed_user)
 
     visit new_user_session_path
+    assert_text "Sign in to your account"
     fill_in "Email", with: user.email
     fill_in "Password", with: "wrongpassword"
     click_on "Sign in"

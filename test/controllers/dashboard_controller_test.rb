@@ -22,4 +22,19 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     get dashboard_path
     assert_match "Welcome, Jane Doe!", response.body
   end
+
+  test "admin sign-in redirects to admin root" do
+    admin = users(:admin_user)
+    post user_session_path, params: {
+      user: { email: admin.email, password: "password123" }
+    }
+    assert_redirected_to admin_root_path
+  end
+
+  test "regular user sign-in redirects to dashboard" do
+    post user_session_path, params: {
+      user: { email: @user.email, password: "password123" }
+    }
+    assert_redirected_to dashboard_path
+  end
 end

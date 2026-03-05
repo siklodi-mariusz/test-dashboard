@@ -200,6 +200,42 @@ Idempotent — safe to run multiple times. Admin is pre-confirmed so they can si
 
 ---
 
+## Live Admin Notifications
+
+When a new user signs up, all admins viewing any admin page receive real-time notifications via Turbo Streams over Action Cable.
+
+### How It Works
+
+A single Action Cable stream `"admin_notifications"` is subscribed in the admin layout. The `User` model broadcasts two Turbo Stream actions on `after_create_commit`:
+
+1. **Toast notification** — `append` to `#admin_toast_container` (visible on every admin page)
+2. **Table row** — `prepend` to `#admin_users_table_body` (only rendered on the users index; silently skipped on other pages since Turbo Streams ignore missing targets)
+
+### Toast Behavior
+
+- Slides in from the right with a CSS transition (Stimulus `toast` controller)
+- Shows "New user signed up" with the user's name and email
+- Auto-dismisses after 5 seconds
+- Can be manually closed via an × button
+
+### Subscription Persistence
+
+The `turbo_stream_from` tag is wrapped in a `data-turbo-permanent` div to prevent duplicate WebSocket subscriptions when navigating between admin pages via Turbo Drive. Without this, Turbo's page cache creates additional `<turbo-cable-stream-source>` elements on each navigation, causing duplicate toasts.
+
+### Users Index Table
+
+The `<tbody>` has `id="admin_users_table_body"` for stream targeting. Each `<tr>` is rendered via the `admin/users/_user_row` partial, reused by both the normal index render and the broadcast. The partial uses `local_assigns[:current_user]` to conditionally show the Delete button — in broadcast context `current_user` is `nil`, so the Delete button shows (correct since a newly registered user is never the viewing admin).
+
+### Files
+
+| File | Purpose |
+|------|---------|
+| `app/javascript/controllers/toast_controller.js` | Stimulus controller for toast animation and auto-dismiss |
+| `app/views/admin/shared/_new_user_toast.html.erb` | Toast card partial |
+| `app/views/admin/users/_user_row.html.erb` | Extracted table row partial |
+
+---
+
 ## Regular Users
 
 No changes to the existing user experience:
@@ -230,3 +266,6 @@ No changes to the existing user experience:
 | `test/integration/routing_test.rb`            | Modify |
 | `test/controllers/dashboard_controller_test.rb` | Modify |
 | `test/system/admin_test.rb`                   | Create |
+| `app/javascript/controllers/toast_controller.js` | Create |
+| `app/views/admin/shared/_new_user_toast.html.erb` | Create |
+| `app/views/admin/users/_user_row.html.erb`    | Create |

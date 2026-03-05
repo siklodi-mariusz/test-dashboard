@@ -1,0 +1,35 @@
+<%= link_to "Back to user", admin_user_path(@user), class: "text-sm text-indigo-600 hover:text-indigo-900" %>
+
+<div class="mt-4 bg-white rounded-xl shadow-sm border border-gray-200 p-8 max-w-lg">
+  <h1 class="text-2xl font-bold text-gray-900 mb-6">Edit User</h1>
+
+  <%= form_with(model: @user, url: admin_user_path(@user), class: "space-y-6") do |f| %>
+    <div>
+      <%= f.label :name, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.text_field :name, class: "mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm" %>
+      <% if @user.errors[:name].any? %>
+        <p class="mt-1 text-sm text-red-600"><%= @user.errors[:name].first %></p>
+      <% end %>
+    </div>
+
+    <div>
+      <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.email_field :email, class: "mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm" %>
+      <% if @user.errors[:email].any? %>
+        <p class="mt-1 text-sm text-red-600"><%= @user.errors[:email].first %></p>
+      <% end %>
+    </div>
+
+    <div>
+      <%= f.label :role, class: "block text-sm font-medium text-gray-700" %>
+      <%= f.select :role, User.roles.keys, {}, class: "mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm" %>
+      <% if @user.errors[:role].any? %>
+        <p class="mt-1 text-sm text-red-600"><%= @user.errors[:role].first %></p>
+      <% end %>
+    </div>
+
+    <div>
+      <%= f.submit "Update user", class: "rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors cursor-pointer" %>
+    </div>
+  <% end %>
+</div>

@@ -78,6 +78,7 @@ class AuthenticationTest < ApplicationSystemTestCase
     user = users(:confirmed_user)
 
     visit new_user_session_path
+    assert_text "Sign in to your account"
     fill_in "Email", with: user.email
     fill_in "Password", with: "password123"
     check "Remember me"
@@ -97,6 +98,7 @@ class AuthenticationTest < ApplicationSystemTestCase
 
     # Sign in
     visit new_user_session_path
+    assert_text "Sign in to your account"
     fill_in "Email", with: user.email
     fill_in "Password", with: "password123"
     click_on "Sign in"
@@ -113,6 +115,7 @@ class AuthenticationTest < ApplicationSystemTestCase
 
     # Try to sign in with deleted credentials
     visit new_user_session_path
+    assert_text "Sign in to your account"
     fill_in "Email", with: user.email
     fill_in "Password", with: "password123"
     click_on "Sign in"
@@ -123,6 +126,7 @@ class AuthenticationTest < ApplicationSystemTestCase
     user = users(:confirmed_user)
 
     visit new_user_session_path
+    assert_text "Sign in to your account"
     fill_in "Email", with: user.email
     fill_in "Password", with: "password123"
     click_on "Sign in"

@@ -45,15 +45,15 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     post user_registration_path, params: {
       user: {
         name: "New User",
-        email: "admin@example.com",
+        email: "sneaky@example.com",
         password: "password123",
         password_confirmation: "password123",
-        admin: true
+        role: "admin"
       }
     }
-    user = User.find_by(email: "admin@example.com")
+    user = User.find_by(email: "sneaky@example.com")
     assert user.present?
     assert_equal "New User", user.name
-    assert_not user.has_attribute?(:admin)
+    assert user.user?, "Expected role to be user, but was #{user.role}"
   end
 end
