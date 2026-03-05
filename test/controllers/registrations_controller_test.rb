@@ -53,5 +53,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     }
     user = User.find_by(email: "admin@example.com")
     assert user.present?
+    assert_equal "New User", user.name
+    assert_not user.has_attribute?(:admin)
   end
 end

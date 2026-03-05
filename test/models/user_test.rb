@@ -8,22 +8,18 @@ class UserTest < ActiveSupport::TestCase
     assert user.valid?
   end
 
-  test "name cannot be blank" do
-    user = User.new(name: "", email: "test@example.com", password: "password123")
-    assert_not user.valid?
-    assert_includes user.errors[:name], "can't be blank"
-  end
-
-  test "name cannot be nil" do
-    user = User.new(name: nil, email: "test@example.com", password: "password123")
-    assert_not user.valid?
-    assert_includes user.errors[:name], "can't be blank"
+  test "name must be present" do
+    [ "", nil ].each do |blank_name|
+      user = User.new(name: blank_name, email: "test@example.com", password: "password123")
+      assert_not user.valid?
+      assert_includes user.errors[:name], "can't be blank"
+    end
   end
 
   test "name cannot exceed 100 characters" do
     user = User.new(name: "a" * 101, email: "test@example.com", password: "password123")
     assert_not user.valid?
-    assert user.errors[:name].any?
+    assert_includes user.errors[:name], "is too long (maximum is 100 characters)"
   end
 
   test "name with exactly 100 characters is valid" do
@@ -46,31 +42,21 @@ class UserTest < ActiveSupport::TestCase
   test "email cannot be blank" do
     user = User.new(name: "Test", email: "", password: "password123")
     assert_not user.valid?
-    assert user.errors[:email].any?
+    assert_includes user.errors[:email], "can't be blank"
   end
 
-  test "email must be unique" do
-    user = User.new(name: "Test", email: users(:confirmed_user).email, password: "password123")
+  test "email must be unique (case-insensitive)" do
+    user = User.new(name: "Test", email: users(:confirmed_user).email.upcase, password: "password123")
     assert_not user.valid?
-    assert user.errors[:email].any?
+    assert_includes user.errors[:email], "has already been taken"
   end
 
-  test "email uniqueness is case-insensitive" do
-    user = User.new(name: "Test", email: "JANE@EXAMPLE.COM", password: "password123")
-    assert_not user.valid?
-    assert user.errors[:email].any?
-  end
-
-  test "invalid email format" do
-    user = User.new(name: "Test", email: "not-an-email", password: "password123")
-    assert_not user.valid?
-    assert user.errors[:email].any?
-  end
-
-  test "email without domain" do
-    user = User.new(name: "Test", email: "user@", password: "password123")
-    assert_not user.valid?
-    assert user.errors[:email].any?
+  test "invalid email formats are rejected" do
+    %w[not-an-email user@].each do |bad_email|
+      user = User.new(name: "Test", email: bad_email, password: "password123")
+      assert_not user.valid?
+      assert_includes user.errors[:email], "is invalid"
+    end
   end
 
   # Password validations
@@ -78,7 +64,7 @@ class UserTest < ActiveSupport::TestCase
   test "password minimum 6 characters" do
     user = User.new(name: "Test", email: "test@example.com", password: "12345")
     assert_not user.valid?
-    assert user.errors[:password].any?
+    assert_includes user.errors[:password], "is too short (minimum is 6 characters)"
   end
 
   test "password with exactly 6 characters is valid" do
@@ -89,6 +75,6 @@ class UserTest < ActiveSupport::TestCase
   test "password cannot be blank" do
     user = User.new(name: "Test", email: "test@example.com", password: "")
     assert_not user.valid?
-    assert user.errors[:password].any?
+    assert_includes user.errors[:password], "can't be blank"
   end
 end
