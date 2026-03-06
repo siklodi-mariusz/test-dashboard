@@ -1,0 +1,28 @@
+<%= turbo_stream_from "admin_dashboard_stats" %>
+
+<div class="flex flex-col gap-6">
+  <div class="flex items-end justify-between">
+    <div>
+      <h1 class="text-3xl font-medium text-gray-900">Hello, <%= current_user.name %>! 👋</h1>
+      <p class="mt-1 text-base text-gray-500">Here's an overview of everything you need to be aware of.</p>
+    </div>
+
+    <%= render "period_picker", period: @period %>
+  </div>
+
+  <%= turbo_frame_tag "dashboard_stats", data: { reload_url: admin_dashboard_path(period: @period) } do %>
+    <div class="grid grid-cols-2 gap-6">
+      <%= render "stat_card",
+            title: "Unconfirmed users",
+            count: @unconfirmed_count,
+            change: @unconfirmed_change,
+            variant: :default %>
+
+      <%= render "stat_card",
+            title: "Confirmed users",
+            count: @confirmed_count,
+            change: @confirmed_change,
+            variant: :gradient %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,19 @@
+<% periods = %w[1h 1d 7d 1m all] %>
+<div class="bg-gray-100 rounded-lg p-0.5 flex items-center"
+     data-controller="period-picker"
+     data-period-picker-active-class="bg-white shadow-sm"
+     data-period-picker-inactive-class="hover:bg-gray-200">
+  <% periods.each do |p| %>
+    <%= link_to p == "all" ? "All" : p,
+          admin_dashboard_path(period: p),
+          data: {
+            turbo_frame: "dashboard_stats",
+            period_picker_target: "pill",
+            action: "period-picker#select"
+          },
+          class: [
+            "px-3 py-1 rounded-md text-xs font-semibold text-gray-700 transition-all",
+            p == period ? "bg-white shadow-sm" : "hover:bg-gray-200"
+          ] %>
+  <% end %>
+</div>

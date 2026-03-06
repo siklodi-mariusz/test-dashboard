@@ -8,6 +8,7 @@ class User < ApplicationRecord
   validate :must_have_at_least_one_admin, if: -> { role_changed? && role_was == "admin" }
 
   after_create_commit :broadcast_to_admins
+  after_update_commit :broadcast_dashboard_refresh, if: :saved_change_to_confirmed_at?
 
   private
 
@@ -21,6 +22,16 @@ class User < ApplicationRecord
       target: "admin_users_table_body",
       partial: "admin/users/user_row",
       locals: { user: self, current_user: nil })
+
+    broadcast_dashboard_refresh
+  end
+
+  def broadcast_dashboard_refresh
+    Turbo::StreamsChannel.broadcast_action_to(
+      "admin_dashboard_stats",
+      action: "reload_frame",
+      target: "dashboard_stats"
+    )
   end
 
   def must_have_at_least_one_admin

@@ -6,8 +6,9 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   namespace :admin do
+    resource :dashboard, only: :show, controller: "dashboard"
     resources :users, only: [:index, :show, :edit, :update, :destroy]
-    root "users#index"
+    root "dashboard#show"
   end
 
   authenticated :user do

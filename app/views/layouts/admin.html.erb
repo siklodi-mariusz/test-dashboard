@@ -26,11 +26,13 @@
         <p class="text-sm text-gray-500 mt-1"><%= current_user.name %></p>
       </div>
 
-      <nav class="p-4 flex-1">
-        <% if request.path.start_with?("/admin/users") || request.path == "/admin" %>
-          <%= link_to "Users", admin_users_path, class: "block px-3 py-2 rounded-lg text-sm font-medium bg-indigo-50 text-indigo-600" %>
-        <% else %>
-          <%= link_to "Users", admin_users_path, class: "block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50" %>
+      <nav class="p-4 flex-1 space-y-1">
+        <% nav_items = [
+          { label: "Dashboard", path: admin_root_path, active: request.path == "/admin" || request.path == "/admin/dashboard" },
+          { label: "Users", path: admin_users_path, active: request.path.start_with?("/admin/users") }
+        ] %>
+        <% nav_items.each do |item| %>
+          <%= link_to item[:label], item[:path], class: "block px-3 py-2 rounded-lg text-sm font-medium #{item[:active] ? 'bg-indigo-50 text-indigo-600' : 'text-gray-700 hover:bg-gray-50'}" %>
         <% end %>
       </nav>
 

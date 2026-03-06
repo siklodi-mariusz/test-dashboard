@@ -17,8 +17,8 @@ class AdminTest < ApplicationSystemTestCase
 
   test "admin can view users list" do
     sign_in_as(@admin)
+    click_on "Users"
 
-    assert_text "Users"
     assert_text @regular_user.name
     assert_text @regular_user.email
     assert_text @admin.name
@@ -27,6 +27,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "admin can view user details" do
     sign_in_as(@admin)
+    click_on "Users"
 
     click_on @regular_user.name
     assert_text @regular_user.name
@@ -36,6 +37,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "admin can edit a user" do
     sign_in_as(@admin)
+    click_on "Users"
 
     click_on @regular_user.name
     click_on "Edit"
@@ -49,6 +51,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "admin can change user role" do
     sign_in_as(@admin)
+    click_on "Users"
 
     click_on @regular_user.name
     click_on "Edit"
@@ -62,6 +65,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "admin can delete a user with confirmation" do
     sign_in_as(@admin)
+    click_on "Users"
 
     click_on @unconfirmed_user.name
 
@@ -75,6 +79,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "admin cannot delete themselves" do
     sign_in_as(@admin)
+    click_on "Users"
 
     click_on @admin.name
 
@@ -85,6 +90,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "admin cannot delete themselves from index" do
     sign_in_as(@admin)
+    click_on "Users"
 
     # On the index page, the Delete button is not rendered for the current user
     within("tr", text: @admin.name) do
@@ -131,6 +137,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "edit form shows validation errors on invalid input" do
     sign_in_as(@admin)
+    click_on "Users"
 
     click_on @regular_user.name
     click_on "Edit"
@@ -144,6 +151,7 @@ class AdminTest < ApplicationSystemTestCase
   test "last admin demotion is prevented via edit form" do
     sign_in_as(@admin)
     assert_equal 1, User.where(role: :admin).count
+    click_on "Users"
 
     click_on @admin.name
     click_on "Edit"
@@ -156,11 +164,4 @@ class AdminTest < ApplicationSystemTestCase
 
   private
 
-  def sign_in_as(user)
-    visit new_user_session_path
-    assert_text "Sign in to your account"
-    fill_in "Email", with: user.email
-    fill_in "Password", with: "password123"
-    click_on "Sign in"
-  end
 end
