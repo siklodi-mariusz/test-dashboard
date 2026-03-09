@@ -141,10 +141,46 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  # Nickname validations
+
+  test "nickname can be blank" do
+    user = User.new(name: "Test", email: "nick1@example.com", password: "password123", nickname: "")
+    assert user.valid?
+  end
+
+  test "nickname can be nil" do
+    user = User.new(name: "Test", email: "nick2@example.com", password: "password123", nickname: nil)
+    assert user.valid?
+  end
+
+  test "nickname with exactly 50 characters is valid" do
+    user = User.new(name: "Test", email: "nick3@example.com", password: "password123", nickname: "a" * 50)
+    assert user.valid?
+  end
+
+  test "nickname cannot exceed 50 characters" do
+    user = User.new(name: "Test", email: "nick4@example.com", password: "password123", nickname: "a" * 51)
+    assert_not user.valid?
+    assert_includes user.errors[:nickname], "is too long (maximum is 50 characters)"
+  end
+
+  # Avatar attachment
+
+  test "user can have an avatar attached" do
+    user = users(:confirmed_user)
+    assert_respond_to user, :avatar
+  end
+
+  test "user avatar is not attached by default" do
+    user = users(:confirmed_user)
+    assert_not user.avatar.attached?
+  end
+
   # Last admin protection
 
   test "last admin cannot be demoted to user" do
     admin = users(:admin_user)
+    User.where(role: :admin).where.not(id: admin.id).update_all(role: :user)
     assert_equal 1, User.where(role: :admin).count, "Precondition: only one admin exists"
 
     admin.role = :user

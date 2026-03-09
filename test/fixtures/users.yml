@@ -4,6 +4,7 @@ confirmed_user:
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
   confirmed_at: <%= Time.current %>
   role: 0
+  nickname: "janedoe"
 
 unconfirmed_user:
   name: "John Smith"
@@ -18,3 +19,20 @@ admin_user:
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
   confirmed_at: <%= Time.current %>
   role: 1
+  nickname: "admin"
+
+second_confirmed_user:
+  name: "Alice Johnson"
+  email: "alice.johnson@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  confirmed_at: <%= Time.current %>
+  role: 0
+  nickname: "alicej"
+
+second_admin_user:
+  name: "Super Admin"
+  email: "superadmin@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  confirmed_at: <%= Time.current %>
+  role: 1
+  nickname: "superadmin"

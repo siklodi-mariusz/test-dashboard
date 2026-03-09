@@ -137,6 +137,7 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "update prevents demoting the last admin" do
     sign_in @admin
+    User.where(role: :admin).where.not(id: @admin.id).update_all(role: :user)
     assert_equal 1, User.where(role: :admin).count
 
     patch admin_user_path(@admin), params: { user: { role: "user" } }

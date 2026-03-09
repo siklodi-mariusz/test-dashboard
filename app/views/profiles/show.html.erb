@@ -1,0 +1,36 @@
+<div class="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
+  <div class="w-full max-w-lg">
+    <%= render "shared/flash" %>
+
+    <div class="bg-white rounded-xl shadow-[1px_3px_4px_0px_rgba(0,0,0,0.1)] p-8 pt-12 relative flex flex-col items-center gap-3">
+      <%# Avatar overlapping the card top edge %>
+      <div class="absolute left-1/2 -translate-x-1/2 -top-[33.5px] flex items-center justify-center rounded-full size-16 border border-gray-300 bg-surface">
+        <% if @user.avatar.attached? %>
+          <%= image_tag @user.avatar, class: "rounded-full size-12 object-cover" %>
+        <% else %>
+          <svg class="size-12 text-gray-400" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="17" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/>
+            <path d="M10 40c0-7.732 6.268-14 14-14s14 6.268 14 14" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          </svg>
+        <% end %>
+      </div>
+
+      <%# Edit link - only shown when viewing own profile %>
+      <% if @user == current_user %>
+        <%= link_to "Edit", edit_profile_path(@user), class: "absolute right-6 top-6 text-sm text-primary" %>
+      <% end %>
+
+      <%# User info: show name + nickname when filled, otherwise email %>
+      <% if @user.name.present? %>
+        <div class="flex flex-col items-center gap-0.5">
+          <p class="font-semibold text-base leading-7 text-black"><%= @user.name %></p>
+          <% if @user.nickname.present? %>
+            <p class="text-sm leading-[21px] text-black"><%= @user.nickname %></p>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="font-semibold text-base leading-7 text-black"><%= @user.email %></p>
+      <% end %>
+    </div>
+  </div>
+</div>

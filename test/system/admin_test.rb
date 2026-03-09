@@ -150,6 +150,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "last admin demotion is prevented via edit form" do
     sign_in_as(@admin)
+    User.where(role: :admin).where.not(id: @admin.id).update_all(role: :user)
     assert_equal 1, User.where(role: :admin).count
     click_on "Users"
 

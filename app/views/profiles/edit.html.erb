@@ -1,0 +1,70 @@
+<div class="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 py-12 gap-2.5">
+  <div class="w-[512px]">
+    <%= link_to "Back to profile", profile_path(@user), class: "text-sm text-primary" %>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-[1px_3px_4px_0px_rgba(0,0,0,0.1)] p-8 w-[512px]">
+    <%= render "shared/flash" %>
+
+    <% if @user.errors.any? %>
+      <div class="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+        <ul>
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form_with(model: @user, url: profile_path(@user), class: "flex flex-col gap-3") do |f| %>
+      <h1 class="font-bold text-base leading-7 text-black">Edit user</h1>
+
+      <%# Name field %>
+      <div class="flex flex-col gap-0.5 w-full">
+        <%= f.label :name, class: "text-sm font-medium leading-[21px] text-black" %>
+        <%= f.text_field :name, placeholder: "Type in", class: "w-full bg-white border border-gray-300 rounded-lg shadow-[0px_1px_4px_0px_rgba(0,0,0,0.1)] px-3 py-2 text-sm leading-[21px] text-input-text placeholder-input-placeholder focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" %>
+      </div>
+
+      <%# Nickname field %>
+      <div class="flex flex-col gap-0.5 w-full">
+        <%= f.label :nickname, class: "text-sm font-medium leading-[21px] text-black" %>
+        <%= f.text_field :nickname, placeholder: "Type in", class: "w-full bg-white border border-gray-300 rounded-lg shadow-[0px_1px_4px_0px_rgba(0,0,0,0.1)] px-3 py-2 text-sm leading-[21px] text-input-text placeholder-input-placeholder focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" %>
+      </div>
+
+      <%# Email field %>
+      <div class="flex flex-col gap-0.5 w-full">
+        <%= f.label :email, class: "text-sm font-medium leading-[21px] text-black" %>
+        <%= f.email_field :email, placeholder: "Type in", class: "w-full bg-white border border-gray-300 rounded-lg shadow-[0px_1px_4px_0px_rgba(0,0,0,0.1)] px-3 py-2 text-sm leading-[21px] text-input-text placeholder-input-placeholder focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" %>
+      </div>
+
+      <%# Avatar section %>
+      <div class="flex flex-col gap-0.5">
+        <span class="text-sm font-medium leading-[21px] text-black">Avatar</span>
+        <div class="flex items-center gap-2.5">
+          <div class="flex items-center justify-center rounded-full size-12 border border-gray-300 bg-surface overflow-hidden shrink-0">
+            <% if @user.avatar.attached? %>
+              <%= image_tag @user.avatar, class: "rounded-full size-12 object-cover" %>
+            <% else %>
+              <svg class="size-6 text-gray-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="8.5" r="3.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                <path d="M5 20c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              </svg>
+            <% end %>
+          </div>
+          <label class="bg-white border border-gray-300 rounded-lg px-2 py-1 text-sm font-semibold leading-[21px] text-muted cursor-pointer hover:bg-gray-50">
+            Upload
+            <%= f.file_field :avatar, class: "hidden", accept: "image/*" %>
+          </label>
+        </div>
+      </div>
+
+      <%# Separator %>
+      <div class="py-3 w-full">
+        <div class="h-px w-full bg-separator"></div>
+      </div>
+
+      <%# Submit button %>
+      <%= f.submit "Save profile", class: "self-start bg-primary text-white text-sm font-semibold leading-[21px] rounded-lg px-2.5 py-2.5 cursor-pointer hover:bg-primary-dark transition-colors" %>
+    <% end %>
+  </div>
+</div>

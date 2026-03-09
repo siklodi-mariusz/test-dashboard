@@ -4,7 +4,10 @@ class User < ApplicationRecord
 
   enum :role, { user: 0, admin: 1 }, default: :user
 
+  has_one_attached :avatar
+
   validates :name, presence: true, length: { maximum: 100 }
+  validates :nickname, length: { maximum: 50 }, allow_blank: true
   validate :must_have_at_least_one_admin, if: -> { role_changed? && role_was == "admin" }
 
   after_create_commit :broadcast_to_admins
