@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design System — Test Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary:     '#4f39f6',
+            'primary-dark': '#4330d9',
+            surface:     '#f8f8f8',
+            separator:   '#f4f4f4',
+            'input-text': '#222222',
+            'input-placeholder': '#a6a6a6',
+            muted:       '#6e6b6b',
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .token-swatch { width: 56px; height: 56px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.06); }
+    .label { font-size: 11px; color: #a6a6a6; margin-top: 6px; text-align: center; display: block; }
+    .token-name { font-size: 11px; color: #6e6b6b; text-align: center; }
+    .token-val  { font-size: 10px; color: #a6a6a6; font-family: monospace; text-align: center; display: block; }
+    .group-title { font-size: 12px; font-weight: 600; color: #6e6b6b; margin-bottom: 12px; margin-top: 28px; }
+    .group-title:first-child { margin-top: 0; }
+
+    /* Sidebar */
+    #sidebar { width: 220px; min-width: 220px; }
+    .nav-link { display: block; padding: 6px 12px; border-radius: 6px; font-size: 13px; color: #374151; cursor: pointer; transition: background 0.15s; user-select: none; }
+    .nav-link:hover { background: #f3f4f6; }
+    .nav-link.active { background: #eef2ff; color: #4338ca; font-weight: 600; }
+    .nav-group-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #9ca3af; padding: 4px 12px; margin-top: 12px; }
+
+    /* Section pages */
+    .page { display: none; }
+    .page.active { display: block; }
+    .page-title { font-size: 22px; font-weight: 700; color: #111827; margin-bottom: 4px; }
+    .page-subtitle { font-size: 14px; color: #6b7280; margin-bottom: 32px; }
+  </style>
+</head>
+<body class="flex h-screen overflow-hidden bg-white">
+
+  <!-- ═══ SIDEBAR ══════════════════════════════════════════════════════ -->
+  <aside id="sidebar" class="flex flex-col border-r border-gray-200 bg-white h-full overflow-y-auto shrink-0">
+    <!-- Brand -->
+    <div class="px-4 py-5 border-b border-gray-200">
+      <p class="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-0.5">Test Dashboard</p>
+      <h1 class="text-sm font-bold text-gray-900">Design System</h1>
+    </div>
+
+    <!-- Nav -->
+    <nav class="px-3 py-4 flex-1 space-y-0.5">
+      <p class="nav-group-label">Foundations</p>
+      <a class="nav-link active" data-page="colors">Colors</a>
+      <a class="nav-link" data-page="typography">Typography</a>
+      <a class="nav-link" data-page="spacing">Spacing &amp; Radius</a>
+
+      <p class="nav-group-label">Components</p>
+      <a class="nav-link" data-page="buttons">Buttons</a>
+      <a class="nav-link" data-page="inputs">Form Inputs</a>
+      <a class="nav-link" data-page="cards">Cards</a>
+      <a class="nav-link" data-page="badges">Badges &amp; Pills</a>
+      <a class="nav-link" data-page="alerts">Alerts &amp; Flash</a>
+      <a class="nav-link" data-page="toast">Toast</a>
+      <a class="nav-link" data-page="navigation">Navigation</a>
+      <a class="nav-link" data-page="period">Period Picker</a>
+      <a class="nav-link" data-page="table">Table</a>
+      <a class="nav-link" data-page="avatar">Avatar</a>
+
+      <p class="nav-group-label">Layouts</p>
+      <a class="nav-link" data-page="layouts">Page Layouts</a>
+    </nav>
+  </aside>
+
+  <!-- ═══ CONTENT ══════════════════════════════════════════════════════ -->
+  <main class="flex-1 overflow-y-auto bg-gray-50">
+    <div class="max-w-4xl mx-auto px-12 py-10">
+
+      <!-- ─── COLORS ──────────────────────────────────────────────────── -->
+      <section id="page-colors" class="page active">
+        <h2 class="page-title">Colors</h2>
+        <p class="page-subtitle">All design tokens defined in <code class="bg-gray-100 px-1 rounded text-xs font-mono">@theme</code> and Tailwind palette values used across the app.</p>
+
+        <h3 class="group-title">Brand / Custom tokens</h3>
+        <div class="flex flex-wrap gap-5">
+          <div class="flex flex-col items-center gap-1"><div class="token-swatch" style="background:#4f39f6"></div><span class="token-name">primary</span><span class="token-val">#4f39f6</span></div>
+          <div class="flex flex-col items-center gap-1"><div class="token-swatch" style="background:#4330d9"></div><span class="token-name">primary-dark</span><span class="token-val">#4330d9</span></div>
+          <div class="flex flex-col items-center gap-1"><div class="token-swatch" style="background:#f8f8f8"></div><span class="token-name">surface</span><span class="token-val">#f8f8f8</span></div>
+          <div class="flex flex-col items-center gap-1"><div class="token-swatch" style="background:#f4f4f4"></div><span class="token-name">separator</span><span class="token-val">#f4f4f4</span></div>
+          <div class="flex flex-col items-center gap-1"><div class="token-swatch" style="background:#222222"></div><span class="token-name">input-text</span><span class="token-val">#222222</span></div>
+          <div class="flex flex-col items-center gap-1"><div class="token-swatch" style="background:#a6a6a6"></div><span class="token-name">input-placeholder</span><span class="token-val">#a6a6a6</span></div>
+          <div class="flex flex-col items-center gap-1"><div class="token-swatch" style="background:#6e6b6b"></div><span class="token-name">muted</span><span class="token-val">#6e6b6b</span></div>
+        </div>
+
+        <h3 class="group-title">Gray scale</h3>
+        <div class="flex flex-wrap gap-4">
+          <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-gray-50"></div><span class="token-name">gray-50</span><span class="token-val">#f9fafb</span></div>
+          <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-gray-100"></div><span class="token-name">gray-100</span><span class="token-val">#f3f4f6</span></div>
+          <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-gray-200"></div><span class="token-name">gray-200</span><span class="token-val">#e5e7eb</span></div>
+          <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-gray-300"></div><span class="token-name">gray-300</span><span class="token-val">#d1d5db</span></div>
+          <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-gray-400"></div><span class="token-name">gray-400</span><span class="token-val">#9ca3af</span></div>
+          <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-gray-500"></div><span class="token-name">gray-500</span><span class="token-val">#6b7280</span></div>
+          <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-gray-700"></div><span class="token-name">gray-700</span><span class="token-val">#374151</span></div>
+          <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-gray-900"></div><span class="token-name">gray-900</span><span class="token-val">#111827</span></div>
+        </div>
+
+        <h3 class="group-title">Semantic palette</h3>
+        <div class="flex flex-wrap gap-8">
+          <div>
+            <p class="text-xs font-semibold text-gray-500 mb-3">Indigo</p>
+            <div class="flex gap-3">
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-indigo-50"></div><span class="token-val">50</span></div>
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-indigo-100"></div><span class="token-val">100</span></div>
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-indigo-500"></div><span class="token-val">500</span></div>
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-indigo-600"></div><span class="token-val">600</span></div>
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-indigo-800"></div><span class="token-val">800</span></div>
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-indigo-900"></div><span class="token-val">900</span></div>
+            </div>
+          </div>
+          <div>
+            <p class="text-xs font-semibold text-gray-500 mb-3">Green</p>
+            <div class="flex gap-3">
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-green-50"></div><span class="token-val">50</span></div>
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-green-100"></div><span class="token-val">100</span></div>
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-green-600"></div><span class="token-val">600</span></div>
+            </div>
+          </div>
+          <div>
+            <p class="text-xs font-semibold text-gray-500 mb-3">Red</p>
+            <div class="flex gap-3">
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-red-50"></div><span class="token-val">50</span></div>
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-red-500"></div><span class="token-val">500</span></div>
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-red-600"></div><span class="token-val">600</span></div>
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-red-800"></div><span class="token-val">800</span></div>
+            </div>
+          </div>
+          <div>
+            <p class="text-xs font-semibold text-gray-500 mb-3">Blue</p>
+            <div class="flex gap-3">
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-blue-50"></div><span class="token-val">50</span></div>
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-blue-200"></div><span class="token-val">200</span></div>
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-blue-800"></div><span class="token-val">800</span></div>
+            </div>
+          </div>
+          <div>
+            <p class="text-xs font-semibold text-gray-500 mb-3">Gradient (stat card)</p>
+            <div class="flex gap-3">
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-pink-200"></div><span class="token-val">pink-200</span></div>
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-purple-300"></div><span class="token-val">purple-300</span></div>
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-indigo-400"></div><span class="token-val">indigo-400</span></div>
+              <div class="flex flex-col items-center gap-1"><div class="token-swatch bg-gradient-to-br from-pink-200 via-purple-300 to-indigo-400"></div><span class="token-val">combined</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── TYPOGRAPHY ──────────────────────────────────────────────── -->
+      <section id="page-typography" class="page">
+        <h2 class="page-title">Typography</h2>
+        <p class="page-subtitle">All text styles and link variants used across the application.</p>
+
+        <h3 class="group-title">Type scale</h3>
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+          <div class="flex items-center px-6 py-5 gap-8">
+            <div class="w-40 shrink-0"><span class="text-xs font-mono text-gray-400">text-3xl · bold</span><br/><span class="text-xs text-gray-400">30px / 700</span></div>
+            <p class="text-3xl font-bold text-gray-900">Hello, User! 👋</p>
+          </div>
+          <div class="flex items-center px-6 py-5 gap-8">
+            <div class="w-40 shrink-0"><span class="text-xs font-mono text-gray-400">text-2xl · bold</span><br/><span class="text-xs text-gray-400">24px / 700</span></div>
+            <p class="text-2xl font-bold text-gray-900">Sign in to your account</p>
+          </div>
+          <div class="flex items-center px-6 py-5 gap-8">
+            <div class="w-40 shrink-0"><span class="text-xs font-mono text-gray-400">text-xl · bold</span><br/><span class="text-xs text-gray-400">20px / 700</span></div>
+            <p class="text-xl font-bold text-gray-900">Admin Panel</p>
+          </div>
+          <div class="flex items-center px-6 py-5 gap-8">
+            <div class="w-40 shrink-0"><span class="text-xs font-mono text-gray-400">text-base · semibold</span><br/><span class="text-xs text-gray-400">16px / 600</span></div>
+            <p class="text-base font-semibold leading-7 text-black">John Appleseed</p>
+          </div>
+          <div class="flex items-center px-6 py-5 gap-8">
+            <div class="w-40 shrink-0"><span class="text-xs font-mono text-gray-400">text-sm · medium</span><br/><span class="text-xs text-gray-400">14px / 500</span></div>
+            <p class="text-sm font-medium text-gray-700">Form label</p>
+          </div>
+          <div class="flex items-center px-6 py-5 gap-8">
+            <div class="w-40 shrink-0"><span class="text-xs font-mono text-gray-400">text-sm · regular</span><br/><span class="text-xs text-gray-400">14px / 400</span></div>
+            <p class="text-sm text-gray-500">Here's an overview of everything you need to be aware of.</p>
+          </div>
+          <div class="flex items-center px-6 py-5 gap-8">
+            <div class="w-40 shrink-0"><span class="text-xs font-mono text-gray-400">text-sm · regular</span><br/><span class="text-xs text-gray-400">14px / 400 — nickname</span></div>
+            <p class="text-sm leading-[21px] text-black">@johndoe</p>
+          </div>
+          <div class="flex items-center px-6 py-5 gap-8">
+            <div class="w-40 shrink-0"><span class="text-xs font-mono text-gray-400">text-xs · medium</span><br/><span class="text-xs text-gray-400">12px / 500 — uppercase</span></div>
+            <p class="text-xs font-medium uppercase tracking-wider text-gray-500">Table column header</p>
+          </div>
+          <div class="flex items-center px-6 py-5 gap-8">
+            <div class="w-40 shrink-0"><span class="text-xs font-mono text-gray-400">text-xs · semibold</span><br/><span class="text-xs text-gray-400">12px / 600</span></div>
+            <p class="text-xs font-semibold text-gray-700">Period pill label</p>
+          </div>
+          <div class="flex items-center px-6 py-5 gap-8">
+            <div class="w-40 shrink-0"><span class="text-xs font-mono text-gray-400">text-2xl · semibold</span><br/><span class="text-xs text-gray-400">24px / 600 — stat count</span></div>
+            <p class="text-2xl font-semibold text-gray-900">284</p>
+          </div>
+        </div>
+
+        <h3 class="group-title">Links</h3>
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+          <div class="flex items-center px-6 py-4 gap-8">
+            <div class="w-40 shrink-0"><span class="text-xs font-mono text-gray-400">primary link</span><br/><span class="text-xs text-gray-400">text-primary</span></div>
+            <a href="#" class="text-sm text-primary">Edit profile</a>
+          </div>
+          <div class="flex items-center px-6 py-4 gap-8">
+            <div class="w-40 shrink-0"><span class="text-xs font-mono text-gray-400">indigo link</span><br/><span class="text-xs text-gray-400">text-indigo-600</span></div>
+            <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500">Sign up · Forgot password?</a>
+          </div>
+          <div class="flex items-center px-6 py-4 gap-8">
+            <div class="w-40 shrink-0"><span class="text-xs font-mono text-gray-400">table link</span><br/><span class="text-xs text-gray-400">indigo-600 · medium</span></div>
+            <a href="#" class="text-indigo-600 hover:text-indigo-900 font-medium">John Smith</a>
+          </div>
+          <div class="flex items-center px-6 py-4 gap-8">
+            <div class="w-40 shrink-0"><span class="text-xs font-mono text-gray-400">danger link</span><br/><span class="text-xs text-gray-400">text-red-600</span></div>
+            <a href="#" class="text-sm text-red-600 hover:text-red-900">Delete</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── SPACING ─────────────────────────────────────────────────── -->
+      <section id="page-spacing" class="page">
+        <h2 class="page-title">Spacing &amp; Border Radius</h2>
+        <p class="page-subtitle">Key spacing values, border radii, and shadow tokens used in the app.</p>
+
+        <div class="grid grid-cols-2 gap-8">
+          <div>
+            <h3 class="group-title">Spacing scale (key values)</h3>
+            <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+              <div class="flex items-center gap-4 px-5 py-3"><div class="bg-primary rounded" style="height:8px;width:2px"></div><span class="text-xs text-gray-500 font-mono">0.5 / 2px</span></div>
+              <div class="flex items-center gap-4 px-5 py-3"><div class="bg-primary rounded" style="height:8px;width:4px"></div><span class="text-xs text-gray-500 font-mono">1 / 4px</span></div>
+              <div class="flex items-center gap-4 px-5 py-3"><div class="bg-primary rounded" style="height:8px;width:6px"></div><span class="text-xs text-gray-500 font-mono">1.5 / 6px</span></div>
+              <div class="flex items-center gap-4 px-5 py-3"><div class="bg-primary rounded" style="height:8px;width:8px"></div><span class="text-xs text-gray-500 font-mono">2 / 8px</span></div>
+              <div class="flex items-center gap-4 px-5 py-3"><div class="bg-primary rounded" style="height:8px;width:10px"></div><span class="text-xs text-gray-500 font-mono">2.5 / 10px</span></div>
+              <div class="flex items-center gap-4 px-5 py-3"><div class="bg-primary rounded" style="height:8px;width:12px"></div><span class="text-xs text-gray-500 font-mono">3 / 12px</span></div>
+              <div class="flex items-center gap-4 px-5 py-3"><div class="bg-primary rounded" style="height:8px;width:16px"></div><span class="text-xs text-gray-500 font-mono">4 / 16px</span></div>
+              <div class="flex items-center gap-4 px-5 py-3"><div class="bg-primary rounded" style="height:8px;width:20px"></div><span class="text-xs text-gray-500 font-mono">5 / 20px</span></div>
+              <div class="flex items-center gap-4 px-5 py-3"><div class="bg-primary rounded" style="height:8px;width:24px"></div><span class="text-xs text-gray-500 font-mono">6 / 24px</span></div>
+              <div class="flex items-center gap-4 px-5 py-3"><div class="bg-primary rounded" style="height:8px;width:32px"></div><span class="text-xs text-gray-500 font-mono">8 / 32px</span></div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="group-title">Border radius</h3>
+            <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+              <div class="flex items-center gap-5 px-5 py-4">
+                <div class="w-14 h-10 bg-gray-100 rounded-md shrink-0"></div>
+                <div><p class="text-xs font-mono text-gray-700">rounded-md</p><p class="text-xs text-gray-400">6px — pills, period picker</p></div>
+              </div>
+              <div class="flex items-center gap-5 px-5 py-4">
+                <div class="w-14 h-10 bg-gray-100 rounded-lg shrink-0"></div>
+                <div><p class="text-xs font-mono text-gray-700">rounded-lg</p><p class="text-xs text-gray-400">8px — buttons, inputs, stat cards</p></div>
+              </div>
+              <div class="flex items-center gap-5 px-5 py-4">
+                <div class="w-14 h-10 bg-gray-100 rounded-xl shrink-0"></div>
+                <div><p class="text-xs font-mono text-gray-700">rounded-xl</p><p class="text-xs text-gray-400">12px — auth cards, tables</p></div>
+              </div>
+              <div class="flex items-center gap-5 px-5 py-4">
+                <div class="w-12 h-12 bg-gray-100 rounded-full shrink-0"></div>
+                <div><p class="text-xs font-mono text-gray-700">rounded-full</p><p class="text-xs text-gray-400">9999px — avatars, badges</p></div>
+              </div>
+            </div>
+
+            <h3 class="group-title">Shadows</h3>
+            <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+              <div class="flex items-center gap-5 px-5 py-4">
+                <div class="w-14 h-10 bg-white rounded-lg shadow-sm border border-gray-100 shrink-0"></div>
+                <div><p class="text-xs font-mono text-gray-700">shadow-sm</p><p class="text-xs text-gray-400">auth cards, toast</p></div>
+              </div>
+              <div class="flex items-center gap-5 px-5 py-4">
+                <div class="w-14 h-10 bg-white rounded-lg shadow-lg border border-gray-100 shrink-0"></div>
+                <div><p class="text-xs font-mono text-gray-700">shadow-lg</p><p class="text-xs text-gray-400">toast container</p></div>
+              </div>
+              <div class="flex items-center gap-5 px-5 py-4">
+                <div class="w-14 h-10 bg-white rounded-lg border border-gray-100 shrink-0" style="box-shadow: 1px 3px 4px 0px rgba(0,0,0,0.1)"></div>
+                <div><p class="text-xs font-mono text-gray-700">1px 3px 4px / 0.1</p><p class="text-xs text-gray-400">profile / edit card</p></div>
+              </div>
+              <div class="flex items-center gap-5 px-5 py-4">
+                <div class="w-14 h-10 bg-white rounded-lg border border-gray-100 shrink-0" style="box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.1)"></div>
+                <div><p class="text-xs font-mono text-gray-700">0px 1px 4px / 0.1</p><p class="text-xs text-gray-400">profile inputs</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── BUTTONS ─────────────────────────────────────────────────── -->
+      <section id="page-buttons" class="page">
+        <h2 class="page-title">Buttons</h2>
+        <p class="page-subtitle">All button variants and interactive states used in the application.</p>
+
+        <h3 class="group-title">Primary — Brand (profile/admin forms)</h3>
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+          <div class="flex items-center gap-6 px-6 py-5">
+            <button class="rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors cursor-pointer">Save profile</button>
+            <span class="text-xs text-gray-400">Default · <code class="font-mono bg-gray-50 px-1 rounded">bg-primary</code></span>
+          </div>
+          <div class="flex items-center gap-6 px-6 py-5">
+            <button class="rounded-lg bg-primary-dark px-4 py-2.5 text-sm font-semibold text-white shadow-sm cursor-pointer">Save profile</button>
+            <span class="text-xs text-gray-400">Hover · <code class="font-mono bg-gray-50 px-1 rounded">bg-primary-dark</code></span>
+          </div>
+          <div class="flex items-center gap-6 px-6 py-5">
+            <button class="rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm ring-2 ring-primary ring-offset-2 cursor-pointer">Save profile</button>
+            <span class="text-xs text-gray-400">Focus · ring-2 ring-primary ring-offset-2</span>
+          </div>
+          <div class="flex items-center gap-6 px-6 py-5">
+            <button disabled class="rounded-lg bg-primary/50 px-4 py-2.5 text-sm font-semibold text-white shadow-sm cursor-not-allowed">Save profile</button>
+            <span class="text-xs text-gray-400">Disabled · opacity 50%</span>
+          </div>
+        </div>
+
+        <h3 class="group-title">Primary — Indigo (auth / admin)</h3>
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+          <div class="flex items-center gap-6 px-6 py-5">
+            <button class="rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm cursor-pointer">Sign in</button>
+            <span class="text-xs text-gray-400">Default · <code class="font-mono bg-gray-50 px-1 rounded">bg-indigo-600</code></span>
+          </div>
+          <div class="flex items-center gap-6 px-6 py-5">
+            <button class="rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm cursor-pointer">Sign in</button>
+            <span class="text-xs text-gray-400">Hover · <code class="font-mono bg-gray-50 px-1 rounded">bg-indigo-500</code></span>
+          </div>
+          <div class="flex items-center gap-6 px-6 py-5">
+            <button class="rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm ring-2 ring-indigo-500 ring-offset-2 cursor-pointer">Sign in</button>
+            <span class="text-xs text-gray-400">Focus · ring-2 ring-indigo-500 ring-offset-2</span>
+          </div>
+          <div class="flex items-center gap-6 px-6 py-5">
+            <button class="w-56 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm cursor-pointer">Log out (full width)</button>
+            <span class="text-xs text-gray-400">Full width · <code class="font-mono bg-gray-50 px-1 rounded">w-full</code></span>
+          </div>
+        </div>
+
+        <h3 class="group-title">Secondary &amp; Ghost</h3>
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+          <div class="flex items-center gap-6 px-6 py-5">
+            <button class="bg-white border border-gray-300 rounded-lg px-3 py-1.5 text-sm font-semibold leading-[21px] text-muted cursor-pointer hover:bg-gray-50">Upload</button>
+            <span class="text-xs text-gray-400">Upload button · bordered ghost</span>
+          </div>
+          <div class="flex items-center gap-6 px-6 py-5">
+            <button class="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 cursor-pointer">Back to Dashboard</button>
+            <span class="text-xs text-gray-400">Nav ghost · no border</span>
+          </div>
+        </div>
+
+        <h3 class="group-title">Danger</h3>
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+          <div class="flex items-center gap-6 px-6 py-5">
+            <button class="text-sm text-red-600 hover:text-red-900 cursor-pointer">Delete</button>
+            <span class="text-xs text-gray-400">Text-only danger · table action</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── INPUTS ──────────────────────────────────────────────────── -->
+      <section id="page-inputs" class="page">
+        <h2 class="page-title">Form Inputs</h2>
+        <p class="page-subtitle">All form controls with their interactive states.</p>
+
+        <h3 class="group-title">Profile text input</h3>
+        <div class="grid grid-cols-3 gap-6">
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <p class="text-xs font-semibold text-gray-500 mb-3">Default</p>
+            <div class="flex flex-col gap-0.5">
+              <label class="text-sm font-medium leading-[21px] text-black">Name</label>
+              <input type="text" placeholder="Type in"
+                class="w-full bg-white border border-gray-300 rounded-lg shadow-[0px_1px_4px_0px_rgba(0,0,0,0.1)] px-3 py-2 text-sm text-input-text placeholder-input-placeholder focus:outline-none" />
+            </div>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <p class="text-xs font-semibold text-gray-500 mb-3">Focus</p>
+            <div class="flex flex-col gap-0.5">
+              <label class="text-sm font-medium leading-[21px] text-black">Name</label>
+              <input type="text" value="John Appleseed"
+                class="w-full bg-white border border-primary rounded-lg shadow-[0px_1px_4px_0px_rgba(0,0,0,0.1)] px-3 py-2 text-sm text-input-text ring-2 ring-primary focus:outline-none" />
+            </div>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <p class="text-xs font-semibold text-gray-500 mb-3">Error</p>
+            <div class="flex flex-col gap-0.5">
+              <label class="text-sm font-medium leading-[21px] text-black">Name</label>
+              <input type="text" value=""
+                class="w-full bg-white border border-red-500 rounded-lg shadow-[0px_1px_4px_0px_rgba(0,0,0,0.1)] px-3 py-2 text-sm text-input-text placeholder-input-placeholder focus:outline-none" />
+              <p class="mt-1 text-sm text-red-600">Name can't be blank</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="group-title">Auth text input (no custom shadow)</h3>
+        <div class="grid grid-cols-3 gap-6">
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <p class="text-xs font-semibold text-gray-500 mb-3">Default</p>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input type="email" placeholder="you@example.com"
+                class="block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none sm:text-sm" />
+            </div>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <p class="text-xs font-semibold text-gray-500 mb-3">Focus</p>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input type="email" value="user@example.com"
+                class="block w-full rounded-lg border border-indigo-500 px-3 py-2 text-gray-900 ring-2 ring-indigo-500 focus:outline-none sm:text-sm" />
+            </div>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <p class="text-xs font-semibold text-gray-500 mb-3">Error</p>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input type="email" value=""
+                class="block w-full rounded-lg border border-red-500 px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none sm:text-sm" />
+              <p class="mt-1 text-sm text-red-600">Email is invalid</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="group-title">Other controls</h3>
+        <div class="grid grid-cols-3 gap-6">
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <p class="text-xs font-semibold text-gray-500 mb-3">Checkbox</p>
+            <label class="flex items-center gap-2">
+              <input type="checkbox" checked class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+              <span class="text-sm text-gray-600">Remember me</span>
+            </label>
+            <label class="flex items-center gap-2 mt-2">
+              <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+              <span class="text-sm text-gray-600">Unchecked</span>
+            </label>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <p class="text-xs font-semibold text-gray-500 mb-3">Select</p>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
+            <select class="block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
+              <option>user</option>
+              <option>admin</option>
+            </select>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <p class="text-xs font-semibold text-gray-500 mb-3">File upload (avatar)</p>
+            <div class="flex items-center gap-2.5">
+              <div class="flex items-center justify-center rounded-full size-12 border border-gray-300 bg-surface overflow-hidden shrink-0">
+                <svg class="size-6 text-gray-400" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="8.5" r="3.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                  <path d="M5 20c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <label class="bg-white border border-gray-300 rounded-lg px-2 py-1 text-sm font-semibold leading-[21px] text-muted cursor-pointer hover:bg-gray-50">Upload</label>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="group-title">Separator</h3>
+        <div class="bg-white rounded-xl border border-gray-200 p-5 max-w-sm">
+          <div class="py-2 w-full">
+            <div class="h-px w-full bg-separator"></div>
+          </div>
+          <p class="text-xs text-gray-400 mt-2 font-mono">h-px bg-separator (#f4f4f4)</p>
+        </div>
+      </section>
+
+      <!-- ─── CARDS ───────────────────────────────────────────────────── -->
+      <section id="page-cards" class="page">
+        <h2 class="page-title">Cards</h2>
+        <p class="page-subtitle">Surface containers used to group related content.</p>
+
+        <h3 class="group-title">Content card (auth / dashboard)</h3>
+        <div class="flex gap-6 flex-wrap">
+          <div>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 w-80">
+              <h2 class="text-2xl font-bold text-gray-900 mb-2">Welcome, John!</h2>
+              <p class="text-sm text-gray-500">Your dashboard content goes here.</p>
+            </div>
+            <span class="label">bg-white · rounded-xl · shadow-sm · border-gray-200</span>
+          </div>
+        </div>
+
+        <h3 class="group-title">Profile card</h3>
+        <div class="flex gap-8 flex-wrap items-start mt-10">
+          <div class="flex flex-col items-center">
+            <div class="bg-white rounded-xl p-8 pt-12 relative flex flex-col items-center gap-3 w-72"
+                 style="box-shadow: 1px 3px 4px 0px rgba(0,0,0,0.1)">
+              <div class="absolute left-1/2 -translate-x-1/2 -top-[33.5px] flex items-center justify-center rounded-full size-16 border border-gray-300 bg-surface">
+                <svg class="size-12 text-gray-400" viewBox="0 0 48 48" fill="none">
+                  <circle cx="24" cy="17" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                  <path d="M10 40c0-7.732 6.268-14 14-14s14 6.268 14 14" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <a href="#" class="absolute right-6 top-6 text-sm text-primary">Edit</a>
+              <div class="flex flex-col items-center gap-0.5">
+                <p class="font-semibold text-base leading-7 text-black">John Appleseed</p>
+                <p class="text-sm leading-[21px] text-black">@johndoe</p>
+              </div>
+            </div>
+            <span class="label mt-2">With name + nickname</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <div class="bg-white rounded-xl p-8 pt-12 relative flex flex-col items-center gap-3 w-72"
+                 style="box-shadow: 1px 3px 4px 0px rgba(0,0,0,0.1)">
+              <div class="absolute left-1/2 -translate-x-1/2 -top-[33.5px] flex items-center justify-center rounded-full size-16 border border-gray-300 bg-surface">
+                <svg class="size-12 text-gray-400" viewBox="0 0 48 48" fill="none">
+                  <circle cx="24" cy="17" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                  <path d="M10 40c0-7.732 6.268-14 14-14s14 6.268 14 14" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <p class="font-semibold text-base leading-7 text-black">John Appleseed</p>
+            </div>
+            <span class="label mt-2">Name only (no nickname)</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <div class="bg-white rounded-xl p-8 pt-12 relative flex flex-col items-center gap-3 w-72"
+                 style="box-shadow: 1px 3px 4px 0px rgba(0,0,0,0.1)">
+              <div class="absolute left-1/2 -translate-x-1/2 -top-[33.5px] flex items-center justify-center rounded-full size-16 border border-gray-300 bg-surface">
+                <div class="rounded-full size-12 bg-gradient-to-br from-indigo-300 to-purple-400 flex items-center justify-center text-white font-bold text-lg">JA</div>
+              </div>
+              <a href="#" class="absolute right-6 top-6 text-sm text-primary">Edit</a>
+              <div class="flex flex-col items-center gap-0.5">
+                <p class="font-semibold text-base leading-7 text-black">John Appleseed</p>
+                <p class="text-sm leading-[21px] text-black">@johndoe</p>
+              </div>
+            </div>
+            <span class="label mt-2">With avatar image</span>
+          </div>
+        </div>
+
+        <h3 class="group-title">Stat cards</h3>
+        <div class="grid grid-cols-3 gap-6">
+          <div>
+            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden p-6 flex flex-col gap-8" style="min-height:152px">
+              <p class="text-sm font-semibold text-gray-700">Unconfirmed users</p>
+              <div class="flex flex-col gap-1">
+                <p class="text-2xl font-semibold text-gray-900">42</p>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs text-gray-500">vs previous period</span>
+                  <span class="inline-flex items-center gap-1 bg-green-50 text-green-600 text-xs font-semibold px-1.5 py-0.5 rounded-full">
+                    <svg class="size-1.5" viewBox="0 0 6 5" fill="currentColor"><polygon points="3,0 6,5 0,5"/></svg>12%
+                  </span>
+                </div>
+              </div>
+            </div>
+            <span class="label">Default · positive change</span>
+          </div>
+          <div>
+            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden p-6 flex flex-col gap-8" style="min-height:152px">
+              <p class="text-sm font-semibold text-gray-700">Unconfirmed users</p>
+              <div class="flex flex-col gap-1">
+                <p class="text-2xl font-semibold text-gray-900">5</p>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs text-gray-500">vs previous period</span>
+                  <span class="inline-flex items-center gap-1 bg-red-50 text-red-500 text-xs font-semibold px-1.5 py-0.5 rounded-full">
+                    <svg class="size-1.5" viewBox="0 0 6 5" fill="currentColor"><polygon points="0,0 6,0 3,5"/></svg>8%
+                  </span>
+                </div>
+              </div>
+            </div>
+            <span class="label">Default · negative change</span>
+          </div>
+          <div>
+            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden p-6 flex flex-col gap-8" style="min-height:152px">
+              <p class="text-sm font-semibold text-gray-700">Confirmed users</p>
+              <div class="flex flex-col gap-1">
+                <p class="text-2xl font-semibold text-gray-900">10</p>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs text-gray-500">vs previous period</span>
+                  <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-1.5 py-0.5 rounded-full">0%</span>
+                </div>
+              </div>
+            </div>
+            <span class="label">Default · neutral change</span>
+          </div>
+          <div class="col-span-1">
+            <div class="bg-gradient-to-br from-pink-200 via-purple-300 to-indigo-400 rounded-lg overflow-hidden p-6 flex flex-col gap-8" style="min-height:152px">
+              <p class="text-sm font-semibold text-white">Confirmed users</p>
+              <div class="flex flex-col gap-1">
+                <p class="text-2xl font-semibold text-white">284</p>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs text-white">vs previous period</span>
+                  <span class="inline-flex items-center gap-1 bg-white/20 text-white text-xs font-semibold px-1.5 py-0.5 rounded-full">
+                    <svg class="size-1.5" viewBox="0 0 6 5" fill="currentColor"><polygon points="3,0 6,5 0,5"/></svg>3%
+                  </span>
+                </div>
+              </div>
+            </div>
+            <span class="label">Gradient variant · positive</span>
+          </div>
+          <div class="col-span-1">
+            <div class="bg-gradient-to-br from-pink-200 via-purple-300 to-indigo-400 rounded-lg overflow-hidden p-6 flex flex-col gap-8" style="min-height:152px">
+              <p class="text-sm font-semibold text-white">Confirmed users</p>
+              <div class="flex flex-col gap-1">
+                <p class="text-2xl font-semibold text-white">284</p>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs text-white">vs previous period</span>
+                  <span class="inline-flex items-center gap-1 bg-white/20 text-white text-xs font-semibold px-1.5 py-0.5 rounded-full">
+                    <svg class="size-1.5" viewBox="0 0 6 5" fill="currentColor"><polygon points="0,0 6,0 3,5"/></svg>5%
+                  </span>
+                </div>
+              </div>
+            </div>
+            <span class="label">Gradient variant · negative</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── BADGES ──────────────────────────────────────────────────── -->
+      <section id="page-badges" class="page">
+        <h2 class="page-title">Badges &amp; Pills</h2>
+        <p class="page-subtitle">Inline status indicators used for roles and metric changes.</p>
+
+        <h3 class="group-title">Role badges</h3>
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+          <div class="flex items-center gap-6 px-6 py-5">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">admin</span>
+            <span class="text-xs text-gray-400">Admin role · <code class="font-mono bg-gray-50 px-1 rounded">bg-indigo-100 text-indigo-800</code></span>
+          </div>
+          <div class="flex items-center gap-6 px-6 py-5">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">user</span>
+            <span class="text-xs text-gray-400">User role · <code class="font-mono bg-gray-50 px-1 rounded">bg-gray-100 text-gray-800</code></span>
+          </div>
+        </div>
+
+        <h3 class="group-title">Change indicators</h3>
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+          <div class="flex items-center gap-6 px-6 py-5">
+            <span class="inline-flex items-center gap-1 bg-green-50 text-green-600 text-xs font-semibold px-1.5 py-0.5 rounded-full">
+              <svg class="size-1.5" viewBox="0 0 6 5" fill="currentColor"><polygon points="3,0 6,5 0,5"/></svg>12%
+            </span>
+            <span class="text-xs text-gray-400">Positive · <code class="font-mono bg-gray-50 px-1 rounded">bg-green-50 text-green-600</code> + up arrow</span>
+          </div>
+          <div class="flex items-center gap-6 px-6 py-5">
+            <span class="inline-flex items-center gap-1 bg-red-50 text-red-500 text-xs font-semibold px-1.5 py-0.5 rounded-full">
+              <svg class="size-1.5" viewBox="0 0 6 5" fill="currentColor"><polygon points="0,0 6,0 3,5"/></svg>5%
+            </span>
+            <span class="text-xs text-gray-400">Negative · <code class="font-mono bg-gray-50 px-1 rounded">bg-red-50 text-red-500</code> + down arrow</span>
+          </div>
+          <div class="flex items-center gap-6 px-6 py-5">
+            <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-500 text-xs font-semibold px-1.5 py-0.5 rounded-full">0%</span>
+            <span class="text-xs text-gray-400">Neutral · <code class="font-mono bg-gray-50 px-1 rounded">bg-gray-100 text-gray-500</code></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── ALERTS ──────────────────────────────────────────────────── -->
+      <section id="page-alerts" class="page">
+        <h2 class="page-title">Alerts &amp; Flash Messages</h2>
+        <p class="page-subtitle">System feedback messages shown inline and in the main layout.</p>
+
+        <div class="flex flex-col gap-5 max-w-lg">
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <p class="text-xs font-semibold text-gray-500 mb-3">Notice (info) — shared/flash</p>
+            <div class="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800">Your profile has been updated successfully.</div>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <p class="text-xs font-semibold text-gray-500 mb-3">Alert (error) — shared/flash</p>
+            <div class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">Invalid email or password. Please try again.</div>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <p class="text-xs font-semibold text-gray-500 mb-3">Success — admin layout (no border)</p>
+            <div class="rounded-lg bg-green-50 p-4 text-sm text-green-700">User was successfully updated.</div>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <p class="text-xs font-semibold text-gray-500 mb-3">Error — admin layout (no border)</p>
+            <div class="rounded-lg bg-red-50 p-4 text-sm text-red-700">Something went wrong. Please try again.</div>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <p class="text-xs font-semibold text-gray-500 mb-3">Validation errors — form</p>
+            <div class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+              <ul class="list-disc list-inside space-y-1">
+                <li>Name can't be blank</li>
+                <li>Email is invalid</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── TOAST ───────────────────────────────────────────────────── -->
+      <section id="page-toast" class="page">
+        <h2 class="page-title">Toast</h2>
+        <p class="page-subtitle">Real-time notification that slides in from the top-right corner.</p>
+
+        <h3 class="group-title">New user signup toast</h3>
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+          <div class="flex items-start gap-6 px-6 py-5">
+            <div class="w-80 bg-white border border-gray-200 rounded-lg shadow-lg p-4 flex items-start gap-3">
+              <div class="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900">New user signed up</p>
+                <p class="text-sm text-gray-500 truncate">Jane Doe — jane@example.com</p>
+              </div>
+              <button class="flex-shrink-0 text-gray-400 hover:text-gray-600 cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+            </div>
+            <div class="text-xs text-gray-400 space-y-1">
+              <p>Triggered via Turbo Streams</p>
+              <p>Positioned: fixed top-4 right-4 z-50</p>
+              <p>Enters: translate-x-full → translate-x-0</p>
+              <p>Auto-dismissed after 5s</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── NAVIGATION ──────────────────────────────────────────────── -->
+      <section id="page-navigation" class="page">
+        <h2 class="page-title">Navigation</h2>
+        <p class="page-subtitle">Admin sidebar navigation component and individual link states.</p>
+
+        <div class="flex gap-12 flex-wrap">
+          <div>
+            <h3 class="group-title">Admin sidebar (full)</h3>
+            <div class="w-64 bg-white border border-gray-200 rounded-xl overflow-hidden">
+              <div class="p-6 border-b border-gray-200">
+                <h2 class="text-lg font-bold text-gray-900">Admin Panel</h2>
+                <p class="text-sm text-gray-500 mt-1">John Appleseed</p>
+              </div>
+              <nav class="p-4 space-y-1">
+                <a href="#" class="block px-3 py-2 rounded-lg text-sm font-medium bg-indigo-50 text-indigo-600">Dashboard</a>
+                <a href="#" class="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">Users</a>
+              </nav>
+              <div class="p-4 border-t border-gray-200 space-y-2">
+                <a href="#" class="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">Back to Dashboard</a>
+                <button class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 cursor-pointer">Log out</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="group-title">Nav item states</h3>
+            <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+              <div class="px-5 py-4">
+                <p class="text-xs text-gray-400 mb-2">Active</p>
+                <a href="#" class="block w-48 px-3 py-2 rounded-lg text-sm font-medium bg-indigo-50 text-indigo-600">Dashboard</a>
+              </div>
+              <div class="px-5 py-4">
+                <p class="text-xs text-gray-400 mb-2">Default</p>
+                <a href="#" class="block w-48 px-3 py-2 rounded-lg text-sm font-medium text-gray-700">Users</a>
+              </div>
+              <div class="px-5 py-4">
+                <p class="text-xs text-gray-400 mb-2">Hover</p>
+                <a href="#" class="block w-48 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 bg-gray-50">Users</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── PERIOD PICKER ───────────────────────────────────────────── -->
+      <section id="page-period" class="page">
+        <h2 class="page-title">Period Picker</h2>
+        <p class="page-subtitle">Segmented control used to filter dashboard stats by time period.</p>
+
+        <h3 class="group-title">Full component</h3>
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+          <div class="flex items-center gap-6 px-6 py-5">
+            <div class="bg-gray-100 rounded-lg p-0.5 flex items-center gap-0">
+              <button class="px-3 py-1 rounded-md text-xs font-semibold text-gray-700 bg-white shadow-sm transition-all">1h</button>
+              <button class="px-3 py-1 rounded-md text-xs font-semibold text-gray-700 transition-all">1d</button>
+              <button class="px-3 py-1 rounded-md text-xs font-semibold text-gray-700 transition-all">7d</button>
+              <button class="px-3 py-1 rounded-md text-xs font-semibold text-gray-700 transition-all">1m</button>
+              <button class="px-3 py-1 rounded-md text-xs font-semibold text-gray-700 transition-all">All</button>
+            </div>
+            <span class="text-xs text-gray-400">1h active</span>
+          </div>
+          <div class="flex items-center gap-6 px-6 py-5">
+            <div class="bg-gray-100 rounded-lg p-0.5 flex items-center gap-0">
+              <button class="px-3 py-1 rounded-md text-xs font-semibold text-gray-700 transition-all">1h</button>
+              <button class="px-3 py-1 rounded-md text-xs font-semibold text-gray-700 transition-all">1d</button>
+              <button class="px-3 py-1 rounded-md text-xs font-semibold text-gray-700 bg-white shadow-sm transition-all">7d</button>
+              <button class="px-3 py-1 rounded-md text-xs font-semibold text-gray-700 transition-all">1m</button>
+              <button class="px-3 py-1 rounded-md text-xs font-semibold text-gray-700 transition-all">All</button>
+            </div>
+            <span class="text-xs text-gray-400">7d active</span>
+          </div>
+        </div>
+
+        <h3 class="group-title">Pill states</h3>
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+          <div class="flex items-center gap-5 px-6 py-4">
+            <div class="bg-gray-100 rounded-lg p-0.5"><button class="px-3 py-1 rounded-md text-xs font-semibold text-gray-700 bg-white shadow-sm">7d</button></div>
+            <span class="text-xs text-gray-400">Active · <code class="font-mono bg-gray-50 px-1 rounded">bg-white shadow-sm</code></span>
+          </div>
+          <div class="flex items-center gap-5 px-6 py-4">
+            <div class="bg-gray-100 rounded-lg p-0.5"><button class="px-3 py-1 rounded-md text-xs font-semibold text-gray-700">1m</button></div>
+            <span class="text-xs text-gray-400">Default (resting)</span>
+          </div>
+          <div class="flex items-center gap-5 px-6 py-4">
+            <div class="bg-gray-100 rounded-lg p-0.5"><button class="px-3 py-1 rounded-md text-xs font-semibold text-gray-700 bg-gray-200">All</button></div>
+            <span class="text-xs text-gray-400">Hover · <code class="font-mono bg-gray-50 px-1 rounded">hover:bg-gray-200</code></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── TABLE ───────────────────────────────────────────────────── -->
+      <section id="page-table" class="page">
+        <h2 class="page-title">Table</h2>
+        <p class="page-subtitle">Data table used in the admin users list.</p>
+
+        <h3 class="group-title">Users table</h3>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap"><a href="#" class="text-indigo-600 hover:text-indigo-900 font-medium">John Appleseed</a></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">john@example.com</td>
+                <td class="px-6 py-4 whitespace-nowrap"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">admin</span></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Jan 15, 2026</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm space-x-3"><a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap"><a href="#" class="text-indigo-600 hover:text-indigo-900 font-medium">Jane Doe</a></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">jane@example.com</td>
+                <td class="px-6 py-4 whitespace-nowrap"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">user</span></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Feb 03, 2026</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm space-x-3">
+                  <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                  <button class="text-red-600 hover:text-red-900 cursor-pointer">Delete</button>
+                </td>
+              </tr>
+              <tr class="bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap"><a href="#" class="text-indigo-600 hover:text-indigo-900 font-medium">Sam Rivera</a></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">sam@example.com</td>
+                <td class="px-6 py-4 whitespace-nowrap"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">user</span></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Mar 01, 2026</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm space-x-3">
+                  <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                  <button class="text-red-600 hover:text-red-900 cursor-pointer">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="group-title" style="margin-top:24px">Anatomy</h3>
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+          <div class="px-6 py-4 flex items-center gap-4"><span class="text-xs font-mono text-gray-500 w-32">Table wrapper</span><span class="text-xs text-gray-400">bg-white · rounded-xl · shadow-sm · border-gray-200 · overflow-hidden</span></div>
+          <div class="px-6 py-4 flex items-center gap-4"><span class="text-xs font-mono text-gray-500 w-32">thead</span><span class="text-xs text-gray-400">bg-gray-50 · divide-y divide-gray-200</span></div>
+          <div class="px-6 py-4 flex items-center gap-4"><span class="text-xs font-mono text-gray-500 w-32">th</span><span class="text-xs text-gray-400">px-6 py-3 · text-xs font-medium text-gray-500 · uppercase tracking-wider</span></div>
+          <div class="px-6 py-4 flex items-center gap-4"><span class="text-xs font-mono text-gray-500 w-32">td (text)</span><span class="text-xs text-gray-400">px-6 py-4 whitespace-nowrap · text-sm text-gray-700</span></div>
+          <div class="px-6 py-4 flex items-center gap-4"><span class="text-xs font-mono text-gray-500 w-32">td (link)</span><span class="text-xs text-gray-400">text-indigo-600 hover:text-indigo-900 font-medium</span></div>
+          <div class="px-6 py-4 flex items-center gap-4"><span class="text-xs font-mono text-gray-500 w-32">Row hover</span><span class="text-xs text-gray-400">bg-gray-50</span></div>
+        </div>
+      </section>
+
+      <!-- ─── AVATAR ──────────────────────────────────────────────────── -->
+      <section id="page-avatar" class="page">
+        <h2 class="page-title">Avatar</h2>
+        <p class="page-subtitle">User avatar component used in profile cards and forms.</p>
+
+        <h3 class="group-title">Sizes</h3>
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+          <div class="flex items-center gap-6 px-6 py-5">
+            <div class="flex items-center justify-center rounded-full size-16 border border-gray-300 bg-surface shrink-0">
+              <svg class="size-12 text-gray-400" viewBox="0 0 48 48" fill="none">
+                <circle cx="24" cy="17" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                <path d="M10 40c0-7.732 6.268-14 14-14s14 6.268 14 14" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="text-xs text-gray-400 space-y-0.5">
+              <p><code class="font-mono bg-gray-50 px-1 rounded">size-16 (64px)</code></p>
+              <p>Profile card overlay — overlaps top edge by 33.5px</p>
+              <p>Inner icon: size-12 (48px)</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-6 px-6 py-5">
+            <div class="flex items-center justify-center rounded-full size-12 border border-gray-300 bg-surface overflow-hidden shrink-0">
+              <svg class="size-6 text-gray-400" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="8.5" r="3.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                <path d="M5 20c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="text-xs text-gray-400 space-y-0.5">
+              <p><code class="font-mono bg-gray-50 px-1 rounded">size-12 (48px)</code></p>
+              <p>Profile edit form</p>
+              <p>Inner icon: size-6 (24px)</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="group-title">States</h3>
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+          <div class="flex items-center gap-6 px-6 py-5">
+            <div class="flex items-center justify-center rounded-full size-16 border border-gray-300 bg-surface shrink-0">
+              <svg class="size-12 text-gray-400" viewBox="0 0 48 48" fill="none">
+                <circle cx="24" cy="17" r="7" stroke="currentColor" stroke-width="1.8" fill="none"/>
+                <path d="M10 40c0-7.732 6.268-14 14-14s14 6.268 14 14" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="text-xs text-gray-400">No avatar — placeholder icon</span>
+          </div>
+          <div class="flex items-center gap-6 px-6 py-5">
+            <div class="flex items-center justify-center rounded-full size-16 border border-gray-300 bg-surface overflow-hidden shrink-0">
+              <div class="rounded-full size-12 bg-gradient-to-br from-indigo-300 to-purple-400 flex items-center justify-center text-white font-bold text-lg">JA</div>
+            </div>
+            <span class="text-xs text-gray-400">With avatar image — <code class="font-mono bg-gray-50 px-1 rounded">object-cover rounded-full size-12</code></span>
+          </div>
+        </div>
+
+        <h3 class="group-title">Container anatomy</h3>
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+          <div class="px-6 py-4 flex items-center gap-4"><span class="text-xs font-mono text-gray-500 w-32">Wrapper</span><span class="text-xs text-gray-400">rounded-full · border border-gray-300 · bg-surface · overflow-hidden</span></div>
+          <div class="px-6 py-4 flex items-center gap-4"><span class="text-xs font-mono text-gray-500 w-32">Image</span><span class="text-xs text-gray-400">rounded-full · size-12 · object-cover</span></div>
+          <div class="px-6 py-4 flex items-center gap-4"><span class="text-xs font-mono text-gray-500 w-32">Placeholder</span><span class="text-xs text-gray-400">SVG icon · stroke-width 1.5–1.8 · text-gray-400</span></div>
+        </div>
+      </section>
+
+      <!-- ─── LAYOUTS ─────────────────────────────────────────────────── -->
+      <section id="page-layouts" class="page">
+        <h2 class="page-title">Page Layouts</h2>
+        <p class="page-subtitle">The two main layout patterns used across the application.</p>
+
+        <div class="grid grid-cols-2 gap-8">
+          <!-- Auth layout -->
+          <div>
+            <h3 class="group-title">Auth / Dashboard layout</h3>
+            <div class="bg-gray-50 rounded-xl overflow-hidden border border-gray-200 flex items-center justify-center" style="height:220px">
+              <div class="bg-white rounded-xl border border-gray-200 p-5" style="width:160px">
+                <div class="h-3 bg-gray-200 rounded w-3/4 mb-3"></div>
+                <div class="h-2 bg-gray-100 rounded w-full mb-1.5"></div>
+                <div class="h-2 bg-gray-100 rounded w-full mb-1.5"></div>
+                <div class="h-2 bg-gray-100 rounded w-full mb-4"></div>
+                <div class="h-7 bg-indigo-600 rounded w-full"></div>
+              </div>
+            </div>
+            <div class="mt-3 bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+              <div class="px-5 py-3 text-xs text-gray-500"><code class="font-mono">body</code> → <code class="font-mono">min-h-screen bg-gray-50</code></div>
+              <div class="px-5 py-3 text-xs text-gray-500">Wrapper → <code class="font-mono">flex items-center justify-center px-4 py-12</code></div>
+              <div class="px-5 py-3 text-xs text-gray-500">Card → <code class="font-mono">max-w-md</code> / <code class="font-mono">max-w-lg</code> / <code class="font-mono">w-[512px]</code></div>
+            </div>
+          </div>
+
+          <!-- Admin layout -->
+          <div>
+            <h3 class="group-title">Admin layout (sidebar)</h3>
+            <div class="bg-gray-50 rounded-xl overflow-hidden border border-gray-200 flex" style="height:220px">
+              <div class="bg-white border-r border-gray-200 p-4 flex flex-col" style="width:90px">
+                <div class="h-3 bg-gray-800 rounded w-full mb-1"></div>
+                <div class="h-2 bg-gray-300 rounded w-3/4 mb-4"></div>
+                <div class="h-6 bg-indigo-50 rounded w-full mb-1.5"></div>
+                <div class="h-6 rounded w-full mb-1.5"></div>
+                <div class="flex-1"></div>
+                <div class="h-px bg-gray-200 mb-2"></div>
+                <div class="h-5 rounded w-full mb-1"></div>
+                <div class="h-5 rounded w-full"></div>
+              </div>
+              <div class="flex-1 p-4">
+                <div class="h-4 bg-gray-200 rounded w-1/2 mb-1"></div>
+                <div class="h-2 bg-gray-100 rounded w-3/4 mb-4"></div>
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="bg-white border border-gray-200 rounded-lg p-3">
+                    <div class="h-2 bg-gray-100 rounded w-3/4 mb-3"></div>
+                    <div class="h-3 bg-gray-200 rounded w-1/2"></div>
+                  </div>
+                  <div class="bg-gradient-to-br from-pink-200 via-purple-300 to-indigo-400 rounded-lg p-3">
+                    <div class="h-2 bg-white/30 rounded w-3/4 mb-3"></div>
+                    <div class="h-3 bg-white/40 rounded w-1/2"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-3 bg-white rounded-xl border border-gray-200 overflow-hidden divide-y divide-gray-100">
+              <div class="px-5 py-3 text-xs text-gray-500"><code class="font-mono">body</code> → <code class="font-mono">flex min-h-screen</code></div>
+              <div class="px-5 py-3 text-xs text-gray-500">Sidebar → <code class="font-mono">w-64 bg-white border-r border-gray-200 flex flex-col</code></div>
+              <div class="px-5 py-3 text-xs text-gray-500">Main → <code class="font-mono">flex-1 p-8 bg-gray-50</code></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /max-w wrapper -->
+  </main>
+
+  <script>
+    const links = document.querySelectorAll('.nav-link');
+    const pages = document.querySelectorAll('.page');
+
+    function navigate(pageId) {
+      pages.forEach(p => p.classList.remove('active'));
+      links.forEach(l => l.classList.remove('active'));
+      const target = document.getElementById('page-' + pageId);
+      if (target) target.classList.add('active');
+      const link = document.querySelector('[data-page="' + pageId + '"]');
+      if (link) link.classList.add('active');
+      document.querySelector('main').scrollTop = 0;
+      const url = new URL(location.href);
+      url.searchParams.set('s', pageId);
+      history.replaceState(null, '', url.pathname + '?s=' + pageId + location.hash);
+    }
+
+    links.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        navigate(link.dataset.page);
+      });
+    });
+
+    // restore from query param on load
+    const sp = new URLSearchParams(location.search).get('s');
+    if (sp && document.getElementById('page-' + sp)) {
+      navigate(sp);
+    }
+  </script>
+</body>
+</html>
