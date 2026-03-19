@@ -56,4 +56,26 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "New User", user.name
     assert user.user?, "Expected role to be user, but was #{user.role}"
   end
+
+  # Invitation linking on self-registration
+
+  test "self-registration with matching pending invitation accepts it and assigns its role" do
+    invitation = invitations(:admin_invitation)
+
+    post user_registration_path, params: {
+      user: {
+        name: "Admin Invitee",
+        email: invitation.email,
+        password: "password123",
+        password_confirmation: "password123"
+      }
+    }
+
+    invitation.reload
+    created_user = User.find_by(email: invitation.email)
+
+    assert_not_nil invitation.accepted_at, "Expected invitation to be marked as accepted"
+    assert created_user.admin?, "Expected user role to match invitation role (admin)"
+    assert_nil created_user.confirmed_at, "Expected Devise email confirmation to still be required"
+  end
 end

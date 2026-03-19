@@ -3,6 +3,9 @@ class Admin::UsersController < Admin::BaseController
 
   def index
     @users = User.order(created_at: :desc)
+    @pending_invitations = Invitation.unaccepted
+                                     .includes(:invited_by)
+                                     .order(created_at: :desc)
   end
 
   def show; end

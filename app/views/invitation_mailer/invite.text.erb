@@ -1,0 +1,10 @@
+You've been invited to Test Dashboard
+=====================================
+
+<%= @invitation.invited_by.name %> has invited you to join Test Dashboard.
+
+Set up your account by visiting the link below:
+
+<%= invitation_url(@invitation.token) %>
+
+This link expires in 72 hours.
