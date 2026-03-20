@@ -13,8 +13,8 @@ class InvitationMailerTest < ActionMailer::TestCase
   end
 
   test "invite email headers are correct" do
-    assert_equal [@invitation.email], @mail.to
-    assert_equal ["noreply@testdashboard.com"], @mail.from
+    assert_equal [ @invitation.email ], @mail.to
+    assert_equal [ "noreply@testdashboard.com" ], @mail.from
     assert_equal "You've been invited to Test Dashboard", @mail.subject
     assert_not_nil @mail.html_part
     assert_not_nil @mail.text_part
@@ -27,7 +27,7 @@ class InvitationMailerTest < ActionMailer::TestCase
     text_body = @mail.text_part.body.decoded
     expected_url = invitation_url(@invitation.token)
 
-    [html_body, text_body].each do |body|
+    [ html_body, text_body ].each do |body|
       assert_match @invitation.invited_by.name, body
       assert_match expected_url, body
       assert_match "72 hours", body

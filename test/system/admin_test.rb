@@ -164,7 +164,4 @@ class AdminTest < ApplicationSystemTestCase
 
     assert_text "cannot be changed"
   end
-
-  private
-
 end

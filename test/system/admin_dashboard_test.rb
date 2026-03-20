@@ -128,7 +128,4 @@ class AdminDashboardTest < ApplicationSystemTestCase
     assert_text unconfirmed_count.to_s
     assert_text confirmed_count.to_s
   end
-
-  private
-
 end
