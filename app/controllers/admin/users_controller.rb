@@ -1,5 +1,5 @@
 class Admin::UsersController < Admin::BaseController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @users = User.order(created_at: :desc)
@@ -36,6 +36,7 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def user_params
+    # Admins are authorized to change user roles (access enforced by Admin::BaseController#require_admin!)
     params.require(:user).permit(:name, :email, :role)
   end
 end

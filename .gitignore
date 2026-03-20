@@ -20,3 +20,6 @@ public/prototypes/*
 # Ignore Claude Code plans (working documents, not source code).
 .claude/plans/*
 !.claude/plans/.keep
+
+# Ignore node modules.
+node_modules/

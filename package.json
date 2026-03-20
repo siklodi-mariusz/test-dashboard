@@ -1,0 +1,14 @@
+{
+  "name": "test-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "repository": "git@github.com:siklodi-mariusz/test-dashboard.git",
+  "license": "MIT",
+  "scripts": {
+    "lint:erb": "herb-lint app/views/",
+    "lint:erb:fix": "herb-lint --fix app/views/"
+  },
+  "devDependencies": {
+    "@herb-tools/linter": "^0.9.2"
+  }
+}

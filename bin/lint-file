@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Quick single-file lint check, used by Claude Code PostToolUse hook.
+# Reads the file path from the hook's JSON input on stdin.
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+# Read JSON input from stdin and extract tool_input.file_path using jq
+input=$(cat)
+file=$(echo "$input" | jq -r '.tool_input.file_path // empty')
+
+# Nothing to lint if no file path
+if [ -z "$file" ]; then
+  exit 0
+fi
+
+# Only lint if file exists (skip deletes)
+if [ ! -f "$file" ]; then
+  exit 0
+fi
+
+# Route to the right linter based on file type
+case "$file" in
+  *.rb)
+    exec bin/rubocop --force-exclusion "$file"
+    ;;
+  *.html.erb | *.turbo_stream.erb)
+    exec yarn lint:erb "$file"
+    ;;
+esac
