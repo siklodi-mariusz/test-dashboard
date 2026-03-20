@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
+
+errors=0
+
+echo "=== Running verification checks ==="
+
+# 1. RuboCop — lint changed Ruby files (staged + unstaged vs HEAD)
+changed_rb_files=$(git diff --name-only --diff-filter=d HEAD -- '*.rb' 2>/dev/null || true)
+staged_rb_files=$(git diff --cached --name-only --diff-filter=d -- '*.rb' 2>/dev/null || true)
+all_rb_files=$(echo -e "${changed_rb_files}\n${staged_rb_files}" | sort -u | grep -v '^$' || true)
+
+if [ -n "$all_rb_files" ]; then
+  echo -e "\n${YELLOW}[1/4] RuboCop — linting changed Ruby files...${NC}"
+  if echo "$all_rb_files" | xargs bin/rubocop --force-exclusion; then
+    echo -e "${GREEN}✓ RuboCop passed${NC}"
+  else
+    echo -e "${RED}✗ RuboCop failed${NC}"
+    errors=$((errors + 1))
+  fi
+else
+  echo -e "\n${GREEN}[1/4] RuboCop — no changed Ruby files, skipping${NC}"
+fi
+
+# 2. Herb Linter — lint changed ERB templates
+changed_erb_files=$(git diff --name-only --diff-filter=d HEAD -- '*.html.erb' '*.turbo_stream.erb' 2>/dev/null || true)
+staged_erb_files=$(git diff --cached --name-only --diff-filter=d -- '*.html.erb' '*.turbo_stream.erb' 2>/dev/null || true)
+all_erb_files=$(echo -e "${changed_erb_files}\n${staged_erb_files}" | sort -u | grep -v '^$' || true)
+
+if [ -n "$all_erb_files" ]; then
+  echo -e "\n${YELLOW}[2/4] Herb Linter — linting changed ERB templates...${NC}"
+  if yarn lint:erb $all_erb_files; then
+    echo -e "${GREEN}✓ Herb Linter passed${NC}"
+  else
+    echo -e "${RED}✗ Herb Linter found template issues${NC}"
+    errors=$((errors + 1))
+  fi
+else
+  echo -e "\n${GREEN}[2/4] Herb Linter — no changed ERB templates, skipping${NC}"
+fi
+
+# 3. Brakeman — static security analysis
+echo -e "\n${YELLOW}[3/4] Brakeman — security scan...${NC}"
+if bin/brakeman -q --no-pager; then
+  echo -e "${GREEN}✓ Brakeman passed${NC}"
+else
+  echo -e "${RED}✗ Brakeman found security issues${NC}"
+  errors=$((errors + 1))
+fi
+
+# 4. bundler-audit — check gems for known vulnerabilities
+echo -e "\n${YELLOW}[4/4] bundler-audit — checking gem vulnerabilities...${NC}"
+if bin/bundler-audit check; then
+  echo -e "${GREEN}✓ bundler-audit passed${NC}"
+else
+  echo -e "${RED}✗ bundler-audit found vulnerabilities${NC}"
+  errors=$((errors + 1))
+fi
+
+echo ""
+if [ $errors -gt 0 ]; then
+  echo -e "${RED}=== Verification FAILED ($errors check(s) failed) ===${NC}"
+  exit 1
+else
+  echo -e "${GREEN}=== All checks passed ===${NC}"
+  exit 0
+fi

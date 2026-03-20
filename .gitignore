@@ -16,3 +16,7 @@ public/prototypes/*
 
 # Ignore local Claude Code settings (personal per developer).
 .claude/settings.local.json
+
+
+# Ignore node modules.
+node_modules/
