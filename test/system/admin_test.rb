@@ -9,6 +9,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "admin signs in and sees admin panel" do
     sign_in_as(@admin)
+    visit admin_root_path
 
     assert_text "Admin Panel"
     assert_text @admin.name
@@ -17,6 +18,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "admin can view users list" do
     sign_in_as(@admin)
+    visit admin_root_path
     click_on "Users"
 
     assert_text @regular_user.name
@@ -27,6 +29,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "admin can view user details" do
     sign_in_as(@admin)
+    visit admin_root_path
     click_on "Users"
 
     click_on @regular_user.name
@@ -37,6 +40,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "admin can edit a user" do
     sign_in_as(@admin)
+    visit admin_root_path
     click_on "Users"
 
     click_on @regular_user.name
@@ -51,6 +55,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "admin can change user role" do
     sign_in_as(@admin)
+    visit admin_root_path
     click_on "Users"
 
     click_on @regular_user.name
@@ -65,6 +70,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "admin can delete a user with confirmation" do
     sign_in_as(@admin)
+    visit admin_root_path
     click_on "Users"
 
     click_on @unconfirmed_user.name
@@ -79,6 +85,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "admin cannot delete themselves" do
     sign_in_as(@admin)
+    visit admin_root_path
     click_on "Users"
 
     click_on @admin.name
@@ -90,6 +97,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "admin cannot delete themselves from index" do
     sign_in_as(@admin)
+    visit admin_root_path
     click_on "Users"
 
     # On the index page, the Delete button is not rendered for the current user
@@ -130,6 +138,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "admin can navigate back to dashboard" do
     sign_in_as(@admin)
+    visit admin_root_path
 
     click_on "Back to Dashboard"
     assert_text "Welcome, #{@admin.name}!"
@@ -137,6 +146,7 @@ class AdminTest < ApplicationSystemTestCase
 
   test "edit form shows validation errors on invalid input" do
     sign_in_as(@admin)
+    visit admin_root_path
     click_on "Users"
 
     click_on @regular_user.name
@@ -152,6 +162,7 @@ class AdminTest < ApplicationSystemTestCase
     sign_in_as(@admin)
     User.where(role: :admin).where.not(id: @admin.id).update_all(role: :user)
     assert_equal 1, User.where(role: :admin).count
+    visit admin_root_path
     click_on "Users"
 
     click_on @admin.name

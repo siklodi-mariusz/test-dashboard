@@ -15,7 +15,13 @@ end
 Capybara.default_max_wait_time = 15
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  include Warden::Test::Helpers
+
   driven_by :playwright_chromium
+
+  teardown do
+    Warden.test_reset!
+  end
 
   private
 
@@ -30,10 +36,11 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   end
 
   # Registers a Promise BEFORE the click that resolves when Turbo finishes
-  # navigating. Uses turbo:before-fetch-request to detect whether a navigation
-  # actually started:
-  #   - No navigation: resolves after a short 50ms idle check.
-  #   - Navigation in progress: waits for turbo:load / turbo:frame-load,
+  # navigating or rendering. Uses turbo:before-fetch-request to detect whether
+  # a request actually started:
+  #   - No request: resolves after a short 50ms idle check.
+  #   - Request in progress: waits for turbo:load (page navigation),
+  #     turbo:frame-load (frame update), or turbo:render (422 form errors),
   #     with a safety-net timeout tied to Capybara.default_max_wait_time.
   def register_turbo_navigation_wait
     max_wait_ms = (Capybara.default_max_wait_time * 1000).to_i
@@ -46,6 +53,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
             const finish = () => {
               document.removeEventListener('turbo:load', onNav);
               document.removeEventListener('turbo:frame-load', onNav);
+              document.removeEventListener('turbo:render', onNav);
               document.removeEventListener('turbo:before-fetch-request', onFetchStart);
               clearTimeout(shortTimer);
               clearTimeout(longTimer);
@@ -61,6 +69,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
             document.addEventListener('turbo:before-fetch-request', onFetchStart, { once: true });
             document.addEventListener('turbo:load', onNav, { once: true });
             document.addEventListener('turbo:frame-load', onNav, { once: true });
+            document.addEventListener('turbo:render', onNav, { once: true });
 
             const shortTimer = setTimeout(() => { if (!navigating) finish(); }, 50);
             const longTimer = setTimeout(finish, maxWaitMs);
@@ -82,10 +91,6 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   end
 
   def sign_in_as(user)
-    visit new_user_session_path
-    assert_text "Sign in to your account"
-    fill_in "Email", with: user.email
-    fill_in "Password", with: "password123"
-    click_on "Sign in"
+    login_as(user, scope: :user)
   end
 end
