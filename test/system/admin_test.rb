@@ -164,5 +164,4 @@ class AdminTest < ApplicationSystemTestCase
   end
 
   private
-
 end

@@ -56,6 +56,7 @@ class AuthenticationTest < ApplicationSystemTestCase
     visit new_user_session_path
     click_on "Forgot your password?"
 
+    assert_text "Back to sign in"
     fill_in "Email", with: user.email
     click_on "Send me reset password instructions"
 
@@ -151,8 +152,10 @@ class AuthenticationTest < ApplicationSystemTestCase
   end
 
   def expire_session_cookie
-    browser = Capybara.current_session.driver.browser
-    session_cookie = browser.manage.all_cookies.find { |c| c[:name] == "_test_dashboard_session" }
-    browser.manage.delete_cookie("_test_dashboard_session") if session_cookie
+    page.driver.with_playwright_page do |pw_page|
+      cookies = pw_page.context.cookies
+      session_cookie = cookies.find { |c| c["name"] == "_test_dashboard_session" }
+      pw_page.context.clear_cookies(name: "_test_dashboard_session") if session_cookie
+    end
   end
 end
