@@ -130,5 +130,4 @@ class AdminDashboardTest < ApplicationSystemTestCase
   end
 
   private
-
 end
