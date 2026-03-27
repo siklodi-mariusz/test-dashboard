@@ -1,0 +1,15 @@
+<div class="min-h-screen bg-gray-50 flex items-center justify-center">
+  <div class="w-full max-w-md mx-auto flex flex-col items-center gap-8 text-center px-6 py-16">
+    <div class="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center">
+      <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+    </div>
+    <div class="flex flex-col gap-2">
+      <h1 class="text-xl font-bold text-gray-900">Invalid Invitation</h1>
+      <p class="text-sm text-gray-500 leading-relaxed">This invitation link is not valid. It may have already been used, cancelled by an admin, or the link may be incomplete.</p>
+    </div>
+    <div class="bg-red-50 border border-red-200 rounded-xl p-4 w-full">
+      <p class="text-sm text-red-700">If you believe this is a mistake, please contact the admin who sent you the invitation.</p>
+    </div>
+    <%= link_to "← Back to sign in", new_user_session_path, class: "text-sm text-indigo-600 hover:text-indigo-800 font-medium" %>
+  </div>
+</div>

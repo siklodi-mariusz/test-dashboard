@@ -1,0 +1,13 @@
+<div class="fixed inset-0 bg-black/30 flex items-center justify-center z-50" data-controller="invite-modal" data-action="keydown.esc->invite-modal#close click->invite-modal#closeOnBackdrop">
+  <div class="w-110 bg-white rounded-2xl shadow-xl p-6" data-invite-modal-target="dialog">
+    <div class="flex items-center justify-between">
+      <h2 class="text-lg font-bold text-gray-900"><%= invitation.persisted? ? "Edit Invitation" : "Invite a New User" %></h2>
+      <button type="button" class="text-gray-400 hover:text-gray-600 cursor-pointer" data-action="invite-modal#close" aria-label="Close">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <p class="mt-2 text-sm text-gray-500"><%= invitation.persisted? ? "Update the invitation details below." : "The user will receive an email with a secure link to set up their account." %></p>
+
+    <%= render "form", invitation: invitation %>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+pending_invitation:
+  email: "pending_invitation@example.com"
+  token: <%= SecureRandom.urlsafe_base64(32) %>
+  role: 0
+  expires_at: <%= 48.hours.from_now %>
+  invited_by: admin_user
+
+expired_invitation:
+  email: "expired_invitation@example.com"
+  token: <%= SecureRandom.urlsafe_base64(32) %>
+  role: 0
+  expires_at: <%= 1.hour.ago %>
+  invited_by: admin_user
+
+accepted_invitation:
+  email: "accepted_invitation@example.com"
+  token: <%= SecureRandom.urlsafe_base64(32) %>
+  role: 0
+  expires_at: <%= 48.hours.from_now %>
+  accepted_at: <%= 1.day.ago %>
+  invited_by: admin_user
+
+admin_invitation:
+  email: "admin_invitation@example.com"
+  token: <%= SecureRandom.urlsafe_base64(32) %>
+  role: 1
+  expires_at: <%= 48.hours.from_now %>
+  invited_by: admin_user

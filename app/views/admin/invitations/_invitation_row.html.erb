@@ -1,0 +1,23 @@
+<tr class="group data-[expired=true]:bg-gray-50" data-expired="<%= invitation.expired? %>">
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 group-data-[expired=true]:text-gray-400 truncate"><%= invitation.email %></td>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <% if invitation.admin? %>
+      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-700 group-data-[expired=true]:text-gray-400">admin</span>
+    <% else %>
+      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 group-data-[expired=true]:text-gray-400">user</span>
+    <% end %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 group-data-[expired=true]:text-gray-400"><%= invitation.invited_by.name %></td>
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 group-data-[expired=true]:text-gray-400"><%= l(invitation.created_at.to_date, format: :abbr_month_day_year) %></td>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <div class="flex items-center gap-2">
+      <span class="text-sm text-gray-500 group-data-[expired=true]:text-gray-400"><%= l(invitation.expires_at.to_date, format: :abbr_month_day_year) %></span>
+      <span class="hidden group-data-[expired=true]:inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">Expired</span>
+    </div>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <div class="flex items-center gap-3">
+      <%= link_to "Edit", edit_admin_invitation_path(invitation), data: { turbo_stream: true }, class: "text-sm font-medium text-indigo-600 hover:text-indigo-800" %>
+    </div>
+  </td>
+</tr>
