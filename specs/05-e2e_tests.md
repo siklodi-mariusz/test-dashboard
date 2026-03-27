@@ -2,7 +2,7 @@
 
 ## Framework
 
-Rails system tests using **Capybara** with **headless Chrome** (`driven_by :selenium, using: :headless_chrome`).
+Rails system tests using **Capybara** with **Playwright** (`capybara-playwright-driver` gem, headless Chromium).
 
 ## Test Pyramid Rationale
 

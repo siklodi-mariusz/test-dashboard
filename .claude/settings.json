@@ -12,6 +12,17 @@
           }
         ]
       }
+    ],
+    "PreCommit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bin/rubocop",
+            "timeout": 30000
+          }
+        ]
+      }
     ]
   }
 }

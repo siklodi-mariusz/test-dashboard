@@ -11,7 +11,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "name must be present" do
-    [ "", nil ].each do |blank_name|
+    ["", nil].each do |blank_name|
       user = User.new(name: blank_name, email: "test@example.com", password: "password123")
       assert_not user.valid?
       assert_includes user.errors[:name], "can't be blank"

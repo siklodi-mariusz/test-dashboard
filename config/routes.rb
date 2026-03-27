@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: "users/registrations" }
 
-  resources :profiles, only: [ :show, :edit, :update ]
-  resources :invitations, only: [ :show, :update ], param: :token
+  resources :profiles, only: [:show, :edit, :update]
+  resources :invitations, only: [:show, :update], param: :token
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
@@ -10,8 +10,8 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resource :dashboard, only: :show, controller: "dashboard"
-    resources :users, only: [ :index, :show, :edit, :update, :destroy ]
-    resources :invitations, only: [ :new, :create, :edit, :update ]
+    resources :users, only: [:index, :show, :edit, :update, :destroy]
+    resources :invitations, only: [:new, :create, :edit, :update]
     root "dashboard#show"
   end
 

@@ -1,5 +1,5 @@
 class Admin::InvitationsController < Admin::BaseController
-  before_action :set_invitation, only: [ :edit, :update ]
+  before_action :set_invitation, only: [:edit, :update]
 
   def new
     @invitation = Invitation.new
@@ -46,6 +46,6 @@ class Admin::InvitationsController < Admin::BaseController
   end
 
   def invitation_params
-    params.expect(invitation: [ :email, :role ])
+    params.expect(invitation: [:email, :role])
   end
 end
