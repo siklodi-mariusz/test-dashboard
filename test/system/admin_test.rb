@@ -92,14 +92,16 @@ class AdminTest < ApplicationSystemTestCase
     sign_in_as(@admin)
     click_on "Users"
 
-    # On the index page, the Delete button is not rendered for the current user
-    within("tr", text: @admin.name) do
-      assert_no_button "Delete"
-    end
+    within("#admin_users_table_body") do
+      # On the index page, the Delete button is not rendered for the current user
+      within("tr", text: @admin.name) do
+        assert_no_button "Delete"
+      end
 
-    # But other users have a Delete button
-    within("tr", text: @regular_user.name) do
-      assert_selector "button", text: "Delete"
+      # But other users have a Delete button
+      within("tr", text: @regular_user.name) do
+        assert_selector "button", text: "Delete"
+      end
     end
   end
 
@@ -162,7 +164,4 @@ class AdminTest < ApplicationSystemTestCase
 
     assert_text "cannot be changed"
   end
-
-  private
-
 end

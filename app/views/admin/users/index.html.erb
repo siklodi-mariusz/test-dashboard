@@ -1,4 +1,10 @@
-<h1 class="text-2xl font-bold text-gray-900 mb-6">Users</h1>
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Users</h1>
+  <%= link_to new_admin_invitation_path, data: { turbo_stream: true }, class: "flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 h-9 rounded-lg px-4 text-sm font-semibold text-white" do %>
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+    Invite User
+  <% end %>
+</div>
 
 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
   <table class="min-w-full divide-y divide-gray-200">
@@ -16,3 +22,24 @@
     </tbody>
   </table>
 </div>
+
+<% if @pending_invitations.any? %>
+  <h2 class="text-base font-semibold text-gray-900 mt-8 mb-3">Pending Invitations</h2>
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Invited by</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sent</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expires</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <%= render partial: "admin/invitations/invitation_row", collection: @pending_invitations, as: :invitation %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

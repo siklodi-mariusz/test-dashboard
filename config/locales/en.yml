@@ -29,3 +29,6 @@
 
 en:
   hello: "Hello world"
+  date:
+    formats:
+      abbr_month_day_year: "%b %d, %Y"

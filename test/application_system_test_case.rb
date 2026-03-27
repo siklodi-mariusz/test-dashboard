@@ -37,5 +37,6 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     fill_in "Email", with: user.email
     fill_in "Password", with: "password123"
     click_on "Sign in"
+    assert_no_text "Sign in to your account"
   end
 end

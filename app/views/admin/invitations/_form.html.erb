@@ -1,0 +1,25 @@
+<%= form_with model: [:admin, invitation], class: "flex flex-col gap-4 mt-4" do |f| %>
+  <% if invitation.errors.any? %>
+    <div class="bg-red-50 border border-red-200 rounded-lg px-3 py-2.5 flex flex-col gap-1">
+      <% invitation.errors.full_messages.each do |message| %>
+        <p class="text-sm font-medium text-red-700"><%= message %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1.5"><%= f.label :email, "Email address" %> <span class="text-red-500">*</span></label>
+    <%= f.email_field :email, placeholder: "name@company.com", data: { invite_modal_target: "initialFocus" }, class: "w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1.5"><%= f.label :role %></label>
+    <%= f.select :role, Invitation.roles.keys.map { |r| [r.capitalize, r] }, {}, class: "w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+    <p class="mt-1 text-xs text-gray-400">Users can access the dashboard. Admins can manage users and settings.</p>
+  </div>
+
+  <div class="flex gap-3 mt-6">
+    <button type="button" class="flex-1 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 cursor-pointer py-2" data-action="invite-modal#close">Cancel</button>
+    <%= f.submit invitation.persisted? ? "Update Invitation" : "Send Invitation", class: "flex-1 bg-indigo-600 rounded-lg text-sm font-semibold text-white hover:bg-indigo-700 cursor-pointer py-2" %>
+  </div>
+<% end %>
